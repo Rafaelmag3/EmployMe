@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="">
+        <menu>
+            <item
+                android:id="@+id/menu_home"
+                android:icon="@drawable/ico_home"
+                android:title="Home">
+
+            </item>
+            <item
+                android:id="@+id/menu_herramientas"
+                android:icon="@drawable/ico_calculadora"
+                android:title="Herramientas">
+
+            </item>
+        </menu>
+    </item>
+    <item android:title="">
+        <menu>
+            <item
+                android:id="@+id/salir"
+                android:icon="@drawable/baseline_exit_to_app_24"
+                android:title="Salir">
+
+            </item>
+        </menu>
+    </item>
+</menu>

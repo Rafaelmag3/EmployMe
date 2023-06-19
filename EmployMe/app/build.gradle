@@ -45,6 +45,8 @@ dependencies {
     implementation 'com.faendir.rhino:rhino-android:1.6.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.android.volley:volley:1.2.1'
+    implementation "androidx.room:room-runtime:2.5.0"
+    annotationProcessor "androidx.room:room-compiler:2.5.0"
 
     def lottieVersion = "3.4.0"
     implementation "com.airbnb.android:lottie:$lottieVersion"
@@ -53,6 +55,12 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.android.volley:volley:1.2.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+
+    //Inicio de sesion con google
+    implementation platform('com.google.firebase:firebase-bom:32.0.0')
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-database:20.0.4'
+    implementation 'com.google.android.gms:play-services-auth:20.5.0'
 
 
 }

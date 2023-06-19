@@ -14,4 +14,11 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_verify_code">verifyCode</string>
+    <string name="btn_Convertir">Convertir</string>
+    <string name="txt_de">De:</string>
+    <string name="txt_a">A:</string>
+
+
+
+    btn_Convertir
 </resources>
