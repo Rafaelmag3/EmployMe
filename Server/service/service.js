@@ -3,7 +3,7 @@ const db = require('../config/connection');
 
 function getUserById(id, callback) {
   console.log(id);
-  const query = 'SELECT * FROM user WHERE id_user = ?';
+  const query = 'SELECT * FROM user WHERE idUser = ?';
   db.query(query, [id], callback);
 }
 

@@ -30,7 +30,7 @@ function login(req, res) {
             res.status(401).send('Credenciales inválidas');
         } else {
             res.send({
-                message: 'Inicio de sesión exitoso',
+                //message: 'Inicio de sesión exitoso',
                 user: {
                     id: user.id,
                     name: user.name,
