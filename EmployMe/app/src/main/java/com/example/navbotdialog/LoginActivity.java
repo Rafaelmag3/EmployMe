@@ -157,7 +157,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String email = emailEditText.getText().toString().trim();
                 String password = passwordEditText.getText().toString().trim();
-
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
                 //Validar campos llenos
                 boolean isFormValid = true;
                 if(email.isEmpty()){
@@ -216,8 +217,8 @@ public class LoginActivity extends AppCompatActivity {
 
                     dataFire.getReference().child("Users").child(user.getUid()).setValue(users);
 
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
+                    /*Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);*/
                 } else{
                     Toast.makeText(LoginActivity.this, "Ingreso no valido", Toast.LENGTH_SHORT).show();
                 }

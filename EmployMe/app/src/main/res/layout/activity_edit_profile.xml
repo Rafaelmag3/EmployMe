@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditProfile">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/user_img" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="Información Personal:"
+                android:textColor="@color/azul"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/nombreET"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/cuadro_editext"
+                android:drawableLeft="@drawable/ico_perfil"
+                android:drawablePadding="8dp"
+                android:hint="Nombre"
+                android:inputType="text"
+                android:padding="8dp"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/apellidoPET"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/cuadro_editext"
+                android:drawableLeft="@drawable/ico_perfil"
+                android:drawablePadding="8dp"
+                android:hint="Apellido Paterno"
+                android:inputType="text"
+                android:padding="8dp"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/apellidoMET"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/cuadro_editext"
+                android:drawableLeft="@drawable/ico_perfil"
+                android:drawablePadding="8dp"
+                android:hint="Apellido Materno"
+                android:inputType="text"
+                android:padding="8dp"
+                android:textColor="@color/black" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/cuadro_editext">
+
+                <EditText
+                    android:id="@+id/passwordET"
+                    android:layout_toStartOf="@+id/passwordIcon"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:drawableLeft="@drawable/ico_lock"
+                    android:background="@drawable/cuadro_editext"
+                    android:hint="Contraseña"
+                    android:paddingStart="10dp"
+                    android:inputType="textPassword" />
+
+                <ImageView
+                    android:id="@+id/passwordIcon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:padding="5dp"
+                    android:src="@drawable/ico_visibility_off"
+                    android:adjustViewBounds="true"
+                    android:layout_marginTop="20dp"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/cuadro_editext">
+
+                <EditText
+                    android:id="@+id/confirmPasswordET"
+                    android:layout_toStartOf="@+id/passwordIcon2"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:drawableLeft="@drawable/ico_lock"
+                    android:background="@drawable/cuadro_editext"
+                    android:hint="Contraseña"
+                    android:paddingStart="10dp"
+                    android:inputType="textPassword" />
+
+                <ImageView
+                    android:id="@+id/passwordIcon2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:padding="5dp"
+                    android:src="@drawable/ico_visibility_off"
+                    android:adjustViewBounds="true"
+                    android:layout_marginTop="20dp"
+                    />
+
+            </RelativeLayout>
+            <Button
+                android:id="@+id/savePerfil"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="30dp"
+                android:backgroundTint="@color/azul"
+                android:text="Guardar Perfil"
+                android:textSize="15sp"
+                />
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
