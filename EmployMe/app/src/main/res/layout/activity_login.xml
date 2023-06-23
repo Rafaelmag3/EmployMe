@@ -102,7 +102,7 @@
                         android:backgroundTint="@color/azul"
                         android:text="Iniciar Sesión"
                         android:textSize="15sp"
-                        app:cornerRadius="20dp" />
+                        app:cornerRadius="10dp" />
 
                     <TextView
                         android:id="@+id/forgetPassword"
