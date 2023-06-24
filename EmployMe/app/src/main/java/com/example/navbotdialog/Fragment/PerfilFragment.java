@@ -1,5 +1,6 @@
 package com.example.navbotdialog.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.constraintlayout.utils.widget.ImageFilterView;
@@ -9,7 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 
+import com.example.navbotdialog.EditProfile;
 import com.example.navbotdialog.R;
 
 /**
@@ -25,6 +28,10 @@ public class PerfilFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private ImageButton settingsButton;
+
+
 
     public PerfilFragment() {
         // Required empty public constructor
@@ -65,9 +72,24 @@ public class PerfilFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_perfil, container, false);
+
+            // Inflar el diseño del fragmento
+            View rootView = inflater.inflate(R.layout.fragment_perfil, container, false);
+
+            // Asignar el ImageButton utilizando rootView.findViewById()
+            settingsButton = rootView.findViewById(R.id.settingsButton);
+            settingsButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getActivity(), EditProfile.class);
+                    startActivity(intent);
+                }
+            });
+            // Resto del código del fragmento...
+            return rootView;
 
     }
+
+
 
 }
