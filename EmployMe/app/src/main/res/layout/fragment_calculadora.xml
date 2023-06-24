@@ -45,13 +45,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_height="wrap_content">
 
             <Button
                 android:id="@+id/btn_historial"
@@ -101,7 +102,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="95dp">
+            android:layout_height="wrap_content">
 
             <Button
                 android:id="@+id/btn_limpiar"
@@ -116,7 +117,6 @@
                 android:textSize="30sp"
                 android:textStyle="bold"
                 app:cornerRadius="100dp" />
-
             <Button
                 android:id="@+id/btn_parentesis"
                 android:layout_width="0dp"
@@ -130,7 +130,6 @@
                 android:textSize="30sp"
                 android:textStyle="bold"
                 app:cornerRadius="100dp" />
-
             <Button
                 android:id="@+id/btn_porcentaje"
                 android:layout_width="0dp"
@@ -144,7 +143,6 @@
                 android:textSize="30sp"
                 android:textStyle="bold"
                 app:cornerRadius="100dp" />
-
             <Button
                 android:id="@+id/btn_division"
                 android:layout_width="0dp"
@@ -159,18 +157,20 @@
                 android:textStyle="bold"
                 app:cornerRadius="100dp" />
 
-
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="95dp">
+            android:layout_height="wrap_content">
 
             <Button
                 android:id="@+id/btn_siete"
-                android:layout_width="90dp"
-                android:layout_margin="5dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                android:baselineAligned="false"
                 android:text="7"
                 android:textColor="@color/black"
                 android:textSize="30sp"
@@ -178,24 +178,28 @@
 
             <Button
                 android:id="@+id/btn_ocho"
-                android:layout_width="90dp"
-                android:layout_margin="5dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                android:baselineAligned="false"
                 android:text="8"
                 android:textColor="@color/black"
                 android:textSize="30sp"
-                app:cornerRadius="100dp"
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
 
             <Button
                 android:id="@+id/btn_nueve"
-                android:layout_width="90dp"
-                android:layout_margin="5dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                android:baselineAligned="false"
                 android:text="9"
                 android:textColor="@color/black"
                 android:textSize="30sp"
-                app:cornerRadius="100dp"
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
 
             <Button
@@ -210,30 +214,36 @@
                 android:textColor="@color/lavanda"
                 android:textSize="30sp"
                 android:textStyle="bold"
-                app:cornerRadius="100dp" />
+                app:cornerRadius="100dp"/>
 
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="95dp">
+            android:layout_height="wrap_content">
 
             <Button
                 android:id="@+id/btn_cuatro"
-                android:layout_width="90dp"
-                android:layout_margin="5dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:textColor="@color/black"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                android:baselineAligned="false"
                 android:text="4"
+                android:textColor="@color/black"
                 android:textSize="30sp"
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
 
             <Button
                 android:id="@+id/btn_cicno"
-                android:layout_width="90dp"
-                android:layout_margin="5dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                android:baselineAligned="false"
                 android:text="5"
                 android:textColor="@color/black"
                 android:textSize="30sp"
@@ -241,9 +251,12 @@
 
             <Button
                 android:id="@+id/btn_seis"
-                android:layout_width="90dp"
-                android:layout_margin="5dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                android:baselineAligned="false"
                 android:text="6"
                 android:textColor="@color/black"
                 android:textSize="30sp"
@@ -261,20 +274,23 @@
                 android:textColor="@color/lavanda"
                 android:textSize="30sp"
                 android:textStyle="bold"
-                app:cornerRadius="100dp" />
+                app:cornerRadius="100dp"/>
 
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="95dp">
+            android:layout_height="wrap_content">
 
             <Button
                 android:id="@+id/btn_uno"
-                android:layout_width="90dp"
-                android:layout_margin="5dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                android:baselineAligned="false"
                 android:text="1"
                 android:textColor="@color/black"
                 android:textSize="30sp"
@@ -282,9 +298,12 @@
 
             <Button
                 android:id="@+id/btn_dos"
-                android:layout_width="90dp"
-                android:layout_margin="5dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                android:baselineAligned="false"
                 android:text="2"
                 android:textColor="@color/black"
                 android:textSize="30sp"
@@ -292,9 +311,12 @@
 
             <Button
                 android:id="@+id/btn_tres"
-                android:layout_width="90dp"
-                android:layout_margin="5dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                android:baselineAligned="false"
                 android:text="3"
                 android:textColor="@color/black"
                 android:textSize="30sp"
@@ -312,19 +334,22 @@
                 android:textColor="@color/lavanda"
                 android:textSize="30sp"
                 android:textStyle="bold"
-                app:cornerRadius="100dp" />
+                app:cornerRadius="100dp"/>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="95dp">
+            android:layout_height="wrap_content">
 
             <Button
                 android:id="@+id/btn_masMenos"
-                android:layout_width="90dp"
-                android:layout_margin="5dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                android:baselineAligned="false"
                 android:text="+/-"
                 android:textColor="@color/black"
                 android:textSize="30sp"
@@ -332,9 +357,12 @@
 
             <Button
                 android:id="@+id/btn_cero"
-                android:layout_width="90dp"
-                android:layout_margin="5dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                android:baselineAligned="false"
                 android:text="0"
                 android:textColor="@color/black"
                 android:textSize="30sp"
@@ -342,9 +370,12 @@
 
             <Button
                 android:id="@+id/btn_punto"
-                android:layout_width="90dp"
-                android:layout_margin="5dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                android:baselineAligned="false"
                 android:text="."
                 android:textColor="@color/black"
                 android:textSize="30sp"
@@ -362,7 +393,7 @@
                 android:textColor="@color/white"
                 android:textSize="30sp"
                 android:textStyle="bold"
-                app:cornerRadius="100dp" />
+                app:cornerRadius="100dp"/>
 
         </LinearLayout>
 

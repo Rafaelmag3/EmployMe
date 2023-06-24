@@ -13,8 +13,8 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="wrap_content"
+        android:padding="10dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -56,7 +56,6 @@
         <TextView
             android:id="@+id/txt_fecha"
             android:text="Fecha"
-            android:textColor="@color/gris"
             android:singleLine="true"
             android:ellipsize="marquee"
             android:marqueeRepeatLimit="marquee_forever"

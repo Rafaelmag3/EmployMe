@@ -19,7 +19,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="50dp"
             android:layout_marginEnd="20dp"
-            app:cardCornerRadius="25dp"
+            app:cardCornerRadius="20dp"
             app:cardElevation="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -170,16 +170,17 @@
                 </RelativeLayout> -->
 
                 <Button
+                    android:id="@+id/btnRegisterUser"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:id="@+id/btnRegisterUser"
-                    android:text="Registrarse"
-                    android:textSize="15sp"
-                    android:textColor="@color/white"
                     android:layout_marginTop="30dp"
+                    android:textSize="15sp"
+                    app:cornerRadius="10dp"
+                    android:text="Registrarse"
+                    android:textColor="@color/white"
                     android:backgroundTint="@color/azul"
                     android:textAllCaps="true"
-                    app:cornerRadius="20dp"/>
+                    />
 
                 <TextView
                     android:id="@+id/login_RedirectText"

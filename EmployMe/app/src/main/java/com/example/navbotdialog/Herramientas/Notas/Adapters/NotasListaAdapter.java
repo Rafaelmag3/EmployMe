@@ -73,7 +73,7 @@ public class NotasListaAdapter extends RecyclerView.Adapter<NotasViewHolder>{
     private int getRandomColor(){
         List<Integer> CodigoColores = new ArrayList<>();
 
-        CodigoColores.add(R.color.lavanda);
+        CodigoColores.add(R.color.white);
 
         Random random = new Random();
         int ramdom_color = random.nextInt(CodigoColores.size());
