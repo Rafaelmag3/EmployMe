@@ -26,6 +26,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -43,6 +44,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText emailEditText, passwordEditText;
@@ -157,131 +161,78 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String email = emailEditText.getText().toString().trim();
                 String password = passwordEditText.getText().toString().trim();
+
+
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
                 //Validar campos llenos
-                boolean isFormValid = true;
-                if(email.isEmpty()){
-                    emailEditText.setError("Campo obligatorio");
-                    isFormValid = false;
-                }
-                if(password.isEmpty()){
-                    passwordEditText.setError("Campo obligatorio");
-                    isFormValid = false;
-                }
-                if (isFormValid){
-                    iniciarSesion(email, password);
-                }else {
-                    Toast.makeText(getApplicationContext(), "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show();
-                }
+                //iniciarSesion(email, password);
             }
         });
 
     }
 
-    int RC_SIGN_IN=40;
-
-    private void signInGoogle() {
-        Intent intent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(intent,RC_SIGN_IN);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode==RC_SIGN_IN){
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try{
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuth(account.getIdToken());
-            }catch (ApiException e){
-                throw new RuntimeException();
-            }
-        }
-
-    }
-
-    private void firebaseAuth(String idToken) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(idToken,null);
-        auth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    FirebaseUser user = auth.getCurrentUser();
-
-                    Users users = new Users();
-                    users.setUserID(user.getUid());
-                    users.setName(user.getDisplayName());
-                    users.setProfile(user.getPhotoUrl().toString());
-
-                    dataFire.getReference().child("Users").child(user.getUid()).setValue(users);
-
-                    /*Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);*/
-                } else{
-                    Toast.makeText(LoginActivity.this, "Ingreso no valido", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
-
-    private void iniciarSesion(String email, String password) {
+    private void iniciarSesion(final String email, final String password) {
         String url = APIUtils.getFullUrl("login");
 
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("email", email);
-            jsonObject.put("password", password);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
+        
+        // Crea una solicitud POST utilizando Volley
+        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, null,
                 new Response.Listener<JSONObject>() {
+
                     @Override
                     public void onResponse(JSONObject response) {
-                        // La solicitud fue exitosa y se recibió una respuesta del servidor
-                        // Procesar la respuesta del servidor
+                        // Manejar la respuesta del servidor aquí
+                        // Por ejemplo, verificar si el inicio de sesión fue exitoso
+                        boolean loginSuccess = false; // Variable para almacenar el estado del inicio de sesión
                         try {
-                            String message = response.getString("message");
-                            JSONObject userObject = response.optJSONObject("user");
-
-                            if (userObject != null) {
-                                int userId = userObject.optInt("id", 0);
-                                String userName = userObject.optString("name", "");
-                                String userEmail = userObject.optString("email", "");
-
-                                Log.d("LoginActivity", message);
-                                Log.d("LoginActivity", "User ID: " + userId);
-                                Log.d("LoginActivity", "User Name: " + userName);
-                                Log.d("LoginActivity", "User Email: " + userEmail);
-
-                                if (message.equals("Inicio de sesión exitoso")) {
-                                    // La conexión fue exitosa y el usuario está autenticado
-                                    // Redireccionar a MainActivity
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    startActivity(intent);
-                                }
-                            }
+                            // Verificar si el inicio de sesión fue exitoso según la respuesta del servidor
+                            loginSuccess = response.getBoolean("success");
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            // Manejar la excepción JSONException aquí
                         }
 
+                        if (loginSuccess) {
+                            // Redirigir a la ventana deseada
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(intent);
+                        } else {
+                            // Mostrar mensaje de error con un Toast
+                            Toast.makeText(getApplicationContext(), "Datos incorrectos", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // Ocurrió un error en la solicitud
-                        // Registrar el error en los registros de la aplicación
-                        Log.e("LoginActivity", "Error en la solicitud HTTP: " + error.toString());
+                        // Manejar el error de la solicitud aquí
+                        Toast.makeText(getApplicationContext(), "Error en la solicitud", Toast.LENGTH_SHORT).show();
                     }
-                });
+                }) {
+            @Override
+            public byte[] getBody() {
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("email", email);
+                    jsonObject.put("password", password);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
-        // Agregar la solicitud a la cola de solicitudes de Volley
-        Volley.newRequestQueue(this).add(jsonObjectRequest);
+                // Registro de los datos que se envían en la consola
+                Log.d("Datos de inicio de sesión", jsonObject.toString());
+
+                return jsonObject.toString().getBytes();
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json";
+            }
+        };
+
+        // Agrega la solicitud a la cola de solicitudes de Volley
+        Volley.newRequestQueue(this).add(jsonRequest);
     }
+
 }

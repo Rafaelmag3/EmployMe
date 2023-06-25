@@ -105,8 +105,6 @@ public class PerfilFragment extends Fragment {
                 }
             });
 
-
-            // Resto del código del fragmento...
             return rootView;
 
     }
