@@ -32,9 +32,7 @@ function login(req, res) {
             res.send({
                 message: 'Inicio de sesión exitoso',
                 user: {
-                    id: user.id,
-                    name: user.name,
-                    email: user.email
+                    idUser: user.idUser,    
                 }
             });
         }

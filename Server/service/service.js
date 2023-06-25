@@ -8,7 +8,7 @@ function getUserById(id, callback) {
 }
 
 function login(email, password, callback) {
-  const query = 'SELECT * FROM user WHERE email = ? AND password = ?';
+  const query = 'SELECT idUser FROM user WHERE email = ? AND password = ?';
   db.query(query, [email, password], (error, results) => {
     if (error) {
       console.error('Error al realizar el inicio de sesión: ', error);
@@ -18,9 +18,7 @@ function login(email, password, callback) {
       callback(false, null);
     } else {
       const user = {
-        id: results[0].id,
-        name: results[0].name,
-        email: results[0].email
+        idUser: results[0].idUser,
       };
       callback(null, user);
     }
@@ -35,7 +33,7 @@ function createUser(user, callback) {
     if (error) {
       callback(error, null);
     } else {
-      // Aquí puedes devolver el ID del usuario recién insertado o cualquier otro valor que desees
+      
       callback(null, result.insertId);
     }
   });

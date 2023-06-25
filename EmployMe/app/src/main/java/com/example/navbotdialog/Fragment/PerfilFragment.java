@@ -30,14 +30,28 @@ import android.view.ViewGroup;
 
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.navbotdialog.APIUtils;
 import com.example.navbotdialog.EditProfile;
 import com.example.navbotdialog.R;
+import com.example.navbotdialog.UserSession;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import kotlin.jvm.internal.PropertyReference0Impl;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -80,47 +94,61 @@ public class PerfilFragment extends Fragment {
 
 
     private ImageView takePhoto, imgProfile;
+    private TextView nameProfileTV, emailProfileTV;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-            // Inflar el diseño del fragmento
-            View rootView = inflater.inflate(R.layout.fragment_perfil, container, false);
 
-            // Asignar el ImageButton utilizando rootView.findViewById()
-            settingsButton = rootView.findViewById(R.id.settingsButton);
-            settingsButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(getActivity(), EditProfile.class);
-                    startActivity(intent);
-                }
-            });
+        //Obtener el id de usuario
+        UserSession userSession = UserSession.getInstance();
+        int userId = userSession.getUserId();
+        Log.d("PerfilFragment", "User ID Fragment: " + userId);
 
-            //Asiganación a elementos de camara
-            takePhoto = rootView.findViewById(R.id.takePhoto);
-            imgProfile = rootView.findViewById(R.id.imgProfile);
+        // Inflar el diseño del fragmento
+        View rootView = inflater.inflate(R.layout.fragment_perfil, container, false);
 
-            //Tocar para abrir la camara
-            imgProfile.setOnClickListener(new View.OnClickListener() {
+        //Asignar datos
+        nameProfileTV = rootView.findViewById(R.id.nameProfile);
+        emailProfileTV = rootView.findViewById(R.id.emailProfile);
+        // Realizar la solicitud GET para obtener los datos del usuario
+        getUserData(userId);
+
+
+        // Asignar el ImageButton
+        settingsButton = rootView.findViewById(R.id.settingsButton);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), EditProfile.class);
+                startActivity(intent);
+            }
+        });
+
+        //Asiganación a elementos de camara
+        takePhoto = rootView.findViewById(R.id.takePhoto);
+        imgProfile = rootView.findViewById(R.id.imgProfile);
+
+        //Tocar para abrir la camara
+        imgProfile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     openCamera();
                 }
             });
 
-            //Tocar para abrir la camara
-            takePhoto.setOnClickListener(new View.OnClickListener() {
+        //Tocar para abrir la camara
+        takePhoto.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     openCamera();
                 }
             });
-
-            return rootView;
-
+        return rootView;
     }
 
+
+    //Abrir camara
     private  void openCamera(){
         //Capturar Imagen
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -149,11 +177,17 @@ public class PerfilFragment extends Fragment {
     }
 
     //Resultado de la actividad
+    private String imagePath;
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        imagePath = currentPhotoPath;
+
+
         if (requestCode == 1 && resultCode == RESULT_OK) {
-            Bitmap imgBitmap = BitmapFactory.decodeFile(currentPhotoPath);
+            Bitmap imgBitmap = BitmapFactory.decodeFile(imagePath);
 
             // Handle image orientation
             try {
@@ -189,8 +223,7 @@ public class PerfilFragment extends Fragment {
         }
     }
 
-
-    String currentPhotoPath;
+    public String currentPhotoPath;
 
     private File createImageFile() throws IOException {
         // Create an image file name
@@ -216,8 +249,6 @@ public class PerfilFragment extends Fragment {
         return image;
     }
 
-
-
     //Ajustar propiedades de la fotografia
     private Bitmap getRoundedBitmap(Bitmap bitmap) {
         int width = bitmap.getWidth();
@@ -237,5 +268,45 @@ public class PerfilFragment extends Fragment {
     }
 
 
+    //Peticon GET
+    private void getUserData(int userId) {
+        // Construir la URL de la solicitud GET
+        String url = APIUtils.getFullUrl("user/" + userId);
 
+        // Realizar la solicitud GET con Volley
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Procesar la respuesta del servidor
+
+                        try {
+                            // Obtener los datos del usuario del objeto JSON response
+                            String userName = response.getString("nameUser");
+                            String userEmail = response.getString("email");
+
+                            // Mostrar los datos en los TextView
+                            nameProfileTV.setText(userName);
+                            emailProfileTV.setText(userEmail);
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            // Manejar la excepción JSONException aquí
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Ocurrió un error en la solicitud
+                        // Registrar el error en los registros de la aplicación
+                        Log.e("PerfilFragment", "Error en la solicitud HTTP: " + error.toString());
+                        Toast.makeText(getActivity(), "Error al obtener los datos del usuario", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        // Agregar la solicitud a la cola de solicitudes de Volley
+        Volley.newRequestQueue(getActivity()).add(jsonObjectRequest);
+    }
 }

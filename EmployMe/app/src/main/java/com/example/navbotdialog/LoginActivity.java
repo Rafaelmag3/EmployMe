@@ -23,11 +23,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.navbotdialog.Fragment.PerfilFragment;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -60,6 +62,8 @@ public class LoginActivity extends AppCompatActivity {
     FirebaseDatabase dataFire;
     GoogleSignInClient mGoogleSignInClient;
     ProgressDialog progressDialog;
+
+    private int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,77 +166,108 @@ public class LoginActivity extends AppCompatActivity {
                 String email = emailEditText.getText().toString().trim();
                 String password = passwordEditText.getText().toString().trim();
 
-
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-                //Validar campos llenos
-                //iniciarSesion(email, password);
+                // Validar campos vacíos
+                if (email.isEmpty()) {
+                    emailEditText.setError("Campo obligatorio");
+                } else if (password.isEmpty()) {
+                    passwordEditText.setError("Campo obligatorio");
+                } else {
+                    // Los campos no están vacíos, realizar el inicio de sesión
+                    iniciarSesion(email, password);
+                }
             }
         });
 
+
     }
 
-    private void iniciarSesion(final String email, final String password) {
+    public void iniciarSesion(String email, String password) {
+
         String url = APIUtils.getFullUrl("login");
 
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("email", email);
+            jsonObject.put("password", password);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        // Crea una solicitud POST utilizando Volley
-        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, null,
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
                 new Response.Listener<JSONObject>() {
-
                     @Override
                     public void onResponse(JSONObject response) {
-                        // Manejar la respuesta del servidor aquí
-                        // Por ejemplo, verificar si el inicio de sesión fue exitoso
-                        boolean loginSuccess = false; // Variable para almacenar el estado del inicio de sesión
+                        // La solicitud fue exitosa y se recibió una respuesta del servidor
+                        // Procesar la respuesta del servidor
+
+
                         try {
-                            // Verificar si el inicio de sesión fue exitoso según la respuesta del servidor
-                            loginSuccess = response.getBoolean("success");
+                            String message = response.getString("message");
+                            JSONObject userObject = response.optJSONObject("user");
+
+
+                            if (userObject != null) {
+
+                                Log.d("LoginActivity", "Response: " + response.toString());
+
+                                //Resibir Id de usuario con la respuesta del swervidor
+                                int userId = userObject.optInt("idUser", 0);
+
+                                UserSession userSession = UserSession.getInstance();
+                                userSession.setUserId(userId);
+
+
+                                //Mandar id a otra interfaz para poder ser utilizada
+                                Bundle bundle = new Bundle();
+                                bundle.putInt("userId", userId);
+                                PerfilFragment perfilFragment = new PerfilFragment();
+                                perfilFragment.setArguments(bundle);
+
+                                Log.d("LoginActivity", message);
+                                Log.d("LoginActivity", "User ID: " + userId);
+
+                                Intent idUser = new Intent(LoginActivity.this, PerfilFragment.class);
+                                idUser.putExtra("userId", userId);
+                                startActivity(idUser);
+
+
+                                if (message.equals("Inicio de sesión exitoso")) {
+                                    // La conexión fue exitosa y el usuario está autenticado
+                                    // Redireccionar a MainActivity
+
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                    finish(); // Opcionalmente, finalizar la actividad actual
+                                } else {
+                                    Toast.makeText(LoginActivity.this, "Contraseña o usuario incorrecto", Toast.LENGTH_SHORT).show();
+                                    // La conexión fue exitosa, pero hubo un error en la autenticación
+                                    // Puedes mostrar un mensaje de error o realizar otras acciones
+                                }
+                            } else {
+                                Toast.makeText(LoginActivity.this, "Usuario incorrecto", Toast.LENGTH_SHORT).show();
+                                // El campo "user" es nulo en el objeto JSON
+                                // Manejar este caso según tus necesidades
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            // Manejar la excepción JSONException aquí
                         }
 
-                        if (loginSuccess) {
-                            // Redirigir a la ventana deseada
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(intent);
-                        } else {
-                            // Mostrar mensaje de error con un Toast
-                            Toast.makeText(getApplicationContext(), "Datos incorrectos", Toast.LENGTH_SHORT).show();
-                        }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // Manejar el error de la solicitud aquí
-                        Toast.makeText(getApplicationContext(), "Error en la solicitud", Toast.LENGTH_SHORT).show();
+                        // Ocurrió un error en la solicitud
+                        // Registrar el error en los registros de la aplicación
+                        Log.e("LoginActivity", "Error en la solicitud HTTP: " + error.toString());
+                        Toast.makeText(LoginActivity.this, "Lo sentimos. Problemas con el servidor", Toast.LENGTH_SHORT).show();
+
                     }
-                }) {
-            @Override
-            public byte[] getBody() {
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("email", email);
-                    jsonObject.put("password", password);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                });
 
-                // Registro de los datos que se envían en la consola
-                Log.d("Datos de inicio de sesión", jsonObject.toString());
-
-                return jsonObject.toString().getBytes();
-            }
-
-            @Override
-            public String getBodyContentType() {
-                return "application/json";
-            }
-        };
-
-        // Agrega la solicitud a la cola de solicitudes de Volley
-        Volley.newRequestQueue(this).add(jsonRequest);
+        // Agregar la solicitud a la cola de solicitudes de Volley
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
 
 }
