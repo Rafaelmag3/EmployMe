@@ -1,16 +1,27 @@
 package com.example.navbotdialog.Fragment;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapShader;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Shader;
 import android.os.Bundle;
 
-import androidx.constraintlayout.utils.widget.ImageFilterView;
+
 import androidx.fragment.app.Fragment;
 
+import android.provider.ContactsContract;
+import android.provider.MediaStore;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
+
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.example.navbotdialog.EditProfile;
 import com.example.navbotdialog.R;
@@ -31,23 +42,10 @@ public class PerfilFragment extends Fragment {
 
     private ImageButton settingsButton;
 
-
-
     public PerfilFragment() {
         // Required empty public constructor
     }
 
-
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PerfilFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static PerfilFragment newInstance(String param1, String param2) {
         PerfilFragment fragment = new PerfilFragment();
         Bundle args = new Bundle();
@@ -65,14 +63,15 @@ public class PerfilFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-
-
     }
+
+
+    private ImageView takePhoto, imgProfile;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
             // Inflar el diseño del fragmento
             View rootView = inflater.inflate(R.layout.fragment_perfil, container, false);
 
@@ -85,11 +84,77 @@ public class PerfilFragment extends Fragment {
                     startActivity(intent);
                 }
             });
+
+            //Asiganación a elementos de camara
+            takePhoto = rootView.findViewById(R.id.takePhoto);
+            imgProfile = rootView.findViewById(R.id.imgProfile);
+
+            //Tocar para abrir la camara
+            imgProfile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openCamera();
+                }
+            });
+
+            //Tocar para abrir la camara
+            takePhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openCamera();
+                }
+            });
+
+
             // Resto del código del fragmento...
             return rootView;
 
     }
 
+    private  void openCamera(){
+        //Capturar Imagen
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
+        //Validar para usara el recurso
+        startActivityForResult(intent, 1);
+
+    }
+
+    //Resultado de la actividad
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imgBitmap = (Bitmap) extras.get("data");
+
+            // Redimensionar la imagen
+            int targetWidth = getResources().getDimensionPixelSize(R.dimen.image_width);
+            int targetHeight = getResources().getDimensionPixelSize(R.dimen.image_height);
+            Bitmap resizedBitmap = Bitmap.createScaledBitmap(imgBitmap, targetWidth, targetHeight, true);
+
+            // Hacer que la imagen sea redonda
+            Bitmap circularBitmap = getRoundedBitmap(resizedBitmap);
+
+            imgProfile.setImageBitmap(circularBitmap);
+        }
+    }
+
+    private Bitmap getRoundedBitmap(Bitmap bitmap) {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        int radius = Math.min(width, height) / 2;
+
+        BitmapShader shader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setShader(shader);
+
+        Bitmap output = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+        canvas.drawCircle(width / 2, height / 2, radius, paint);
+
+        return output;
+    }
 
 }
