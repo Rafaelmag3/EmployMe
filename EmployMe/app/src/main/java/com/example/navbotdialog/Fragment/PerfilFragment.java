@@ -2,20 +2,28 @@ package com.example.navbotdialog.Fragment;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Shader;
+import android.media.ExifInterface;
+import android.net.Uri;
 import android.os.Bundle;
 
 
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
+import android.os.Environment;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +33,11 @@ import android.widget.ImageView;
 
 import com.example.navbotdialog.EditProfile;
 import com.example.navbotdialog.R;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,7 +80,6 @@ public class PerfilFragment extends Fragment {
 
 
     private ImageView takePhoto, imgProfile;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -113,8 +125,26 @@ public class PerfilFragment extends Fragment {
         //Capturar Imagen
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-        //Validar para usara el recurso
-        startActivityForResult(intent, 1);
+        if (intent.resolveActivity(requireActivity().getPackageManager()) != null) {
+
+            //Validar para usara el recurso
+            File imageFile = null;
+
+            try {
+                imageFile = createImageFile();
+            }catch (IOException ex){
+                Log.e("Error", ex.toString());
+            }
+
+            if (imageFile != null) {
+                Uri imageUri = FileProvider.getUriForFile(requireContext(),
+                        "com.example.navbotdialog.fileprovider", imageFile);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                startActivityForResult(intent, 1);
+            }
+
+        }
+
 
     }
 
@@ -123,21 +153,72 @@ public class PerfilFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imgBitmap = (Bitmap) extras.get("data");
+            Bitmap imgBitmap = BitmapFactory.decodeFile(currentPhotoPath);
 
-            // Redimensionar la imagen
+            // Handle image orientation
+            try {
+                ExifInterface exifInterface = new ExifInterface(currentPhotoPath);
+                int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+                Matrix matrix = new Matrix();
+                switch (orientation) {
+                    case ExifInterface.ORIENTATION_ROTATE_90:
+                        matrix.postRotate(90);
+                        break;
+                    case ExifInterface.ORIENTATION_ROTATE_180:
+                        matrix.postRotate(180);
+                        break;
+                    case ExifInterface.ORIENTATION_ROTATE_270:
+                        matrix.postRotate(270);
+                        break;
+                    default:
+                        // No rotation needed
+                        break;
+                }
+                imgBitmap = Bitmap.createBitmap(imgBitmap, 0, 0, imgBitmap.getWidth(), imgBitmap.getHeight(), matrix, true);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // Continue with image processing
             int targetWidth = getResources().getDimensionPixelSize(R.dimen.image_width);
             int targetHeight = getResources().getDimensionPixelSize(R.dimen.image_height);
             Bitmap resizedBitmap = Bitmap.createScaledBitmap(imgBitmap, targetWidth, targetHeight, true);
-
-            // Hacer que la imagen sea redonda
             Bitmap circularBitmap = getRoundedBitmap(resizedBitmap);
 
             imgProfile.setImageBitmap(circularBitmap);
         }
     }
 
+
+    String currentPhotoPath;
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+
+        // Obtain the Context object associated with the Fragment
+        Context context = requireContext();
+
+        // Get the directory for storing the image file
+        File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+
+        // Create the temporary image file
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save the file path for later use
+        currentPhotoPath = image.getAbsolutePath();
+        Log.e("Imagen: ", currentPhotoPath);
+        return image;
+    }
+
+
+
+    //Ajustar propiedades de la fotografia
     private Bitmap getRoundedBitmap(Bitmap bitmap) {
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
@@ -154,5 +235,7 @@ public class PerfilFragment extends Fragment {
 
         return output;
     }
+
+
 
 }

@@ -175,7 +175,7 @@ public class LoginActivity extends AppCompatActivity {
     private void iniciarSesion(final String email, final String password) {
         String url = APIUtils.getFullUrl("login");
 
-        
+
         // Crea una solicitud POST utilizando Volley
         JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, null,
                 new Response.Listener<JSONObject>() {

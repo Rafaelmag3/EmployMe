@@ -160,12 +160,6 @@ public class SignUpActivity extends AppCompatActivity {
         params.put("dateRegister", currentDate);
         params.put("id_category", userCategori);
 
-        //Ver datos enviados
-        /*for (Map.Entry<String, String> entry : params.entrySet()) {
-            String key = entry.getKey();
-            String value = entry.getValue();
-            Log.d("Datos enviados", key + ": " + value);
-        }*/
 
         // Solicitud POST
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -214,4 +208,5 @@ public class SignUpActivity extends AppCompatActivity {
         // Agregar la solicitud a la cola de solicitudes
         requestQueue.add(jsonObjectRequest);
     }
+
 }
