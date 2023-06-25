@@ -30,13 +30,40 @@
                 android:textStyle="bold"
                 android:gravity="center" />
 
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:background="@drawable/rounded_background">
+
             <androidx.constraintlayout.utils.widget.ImageFilterView
                 android:id="@+id/imgProfile"
-                android:layout_width="160dp"
-                android:layout_height="140dp"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/user_img"
-                android:layout_gravity="center" />
+                android:layout_width="150dp"
+                android:layout_height="145dp"
+
+                android:src="@drawable/user_img" />
+
+        </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="-35dp"
+                android:background="@drawable/rounded_background">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/camera"
+                    android:padding="2dp"
+                    />
+            </LinearLayout>
+
 
             <TextView
                 android:id="@+id/nameProfile"
