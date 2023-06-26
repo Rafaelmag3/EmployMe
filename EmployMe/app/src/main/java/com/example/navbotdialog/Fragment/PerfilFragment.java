@@ -16,6 +16,8 @@ import android.net.Uri;
 import android.os.Bundle;
 
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
@@ -24,7 +26,9 @@ import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.text.Layout;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -97,13 +101,38 @@ public class PerfilFragment extends Fragment {
     private TextView nameProfileTV, emailProfileTV;
 
     @Override
+    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        getActivity().getMenuInflater().inflate(R.menu.option_photo, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.option_camera:
+                openCamera();
+                Toast.makeText(getActivity(), "Camara", Toast.LENGTH_SHORT).show();
+                return true;
+
+            case R.id.opcion_galery:
+                Toast.makeText(getActivity(), "Galeria", Toast.LENGTH_SHORT).show();
+                return true;
+
+            default:
+                return super.onContextItemSelected(item);
+        }
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         //Obtener el id de usuario
         UserSession userSession = UserSession.getInstance();
         int userId = userSession.getUserId();
-        Log.d("PerfilFragment", "User ID Fragment: " + userId);
+        //Log.d("PerfilFragment", "User ID Fragment: " + userId);
 
         // Inflar el diseño del fragmento
         View rootView = inflater.inflate(R.layout.fragment_perfil, container, false);
@@ -130,20 +159,26 @@ public class PerfilFragment extends Fragment {
         imgProfile = rootView.findViewById(R.id.imgProfile);
 
         //Tocar para abrir la camara
-        imgProfile.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    openCamera();
-                }
-            });
-
-        //Tocar para abrir la camara
         takePhoto.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     openCamera();
                 }
             });
+
+        registerForContextMenu(imgProfile);
+        imgProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.showContextMenu();
+            }
+        });
+
+
+
+
+
+
         return rootView;
     }
 

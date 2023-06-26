@@ -57,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Obtener el id de usuario
+        UserSession userSession = UserSession.getInstance();
+        int userId = userSession.getUserId();
 
         coordinatorLayout1 = findViewById(R.id.coordinatorLayout1);
         coordinatorLayout2 = findViewById(R.id.coordinatorLayout2);
@@ -338,5 +341,7 @@ public class MainActivity extends AppCompatActivity {
                 .setNegativeButton("Cancelar", null)
                 .show();
     }
+
+
 
 }
