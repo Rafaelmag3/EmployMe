@@ -1,5 +1,5 @@
 const db = require('../config/connection');
-
+const multer = require('multer');
 
 function getUserById(id, callback) {
   console.log(id);
@@ -33,7 +33,7 @@ function createUser(user, callback) {
     if (error) {
       callback(error, null);
     } else {
-      
+
       callback(null, result.insertId);
     }
   });
@@ -47,15 +47,32 @@ function checkUserExistence(email, callback) {
       console.error('Error al verificar la existencia del usuario: ', error);
 
     } else {
-      const userExists = result.length > 0;    
+      const userExists = result.length > 0;
       callback(null, userExists, email)
     }
   });
 }
+
+
+// Configurar Multer para guardar las imágenes en una carpeta específica
+function saveImage(destinationPath) {
+  const storage = multer.diskStorage({
+    destination: function (req, file, cd) {
+      cd(null, destinationPath);
+    },
+    filename: function (req, file, cd) {
+      cd(null, file.originalname)
+    }
+  });
+  return multer({ storage: storage });
+
+}
+
 
 module.exports = {
   getUserById,
   login,
   createUser,
   checkUserExistence,
+  saveImage
 };

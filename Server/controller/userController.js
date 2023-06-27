@@ -1,9 +1,10 @@
 const userService = require('../service/service');
 const resource = require('../controller/getResources/resources');
+const multer = require('multer');
 
 function getUserById(req, res) {
     const { id_user } = req.params;
-    console.log(id_user);
+    //console.log(id_user);
     userService.getUserById(id_user, (error, results) => {
         if (error) {
             console.error('Error al obtener el usuario: ', error);
@@ -32,7 +33,7 @@ function login(req, res) {
             res.send({
                 message: 'Inicio de sesión exitoso',
                 user: {
-                    idUser: user.idUser,    
+                    idUser: user.idUser,
                 }
             });
         }
@@ -48,7 +49,7 @@ function createUser(req, res) {
             res.status(500).send('Error al crear el usuario');
         } else {
             res.send('Usuario creado correctamente');
-            
+
         }
     });
 }
@@ -56,7 +57,7 @@ function createUser(req, res) {
 
 function checkUserExistence(req, res) {
     const { email } = req.body;
-    
+
     userService.checkUserExistence(email, (error, userExists) => {
         if (error) {
             console.log('Error al verificar la existencia del usuario: ', error);
@@ -69,8 +70,18 @@ function checkUserExistence(req, res) {
     });
 }
 
+function uploadImage(req, res, destinationPath) {
+    const upload = userService.saveImage(destinationPath).single('file');
 
-
+    upload(req, res, function (err) {
+        if (err) {
+            console.error(err);
+            res.status(500).send('Error al guardar la imagen');
+        } else {
+            res.status(200).send('Imagen guardada correctamente');
+        }
+    });
+}
 
 
 module.exports = {
@@ -78,4 +89,5 @@ module.exports = {
     login,
     createUser,
     checkUserExistence,
+    uploadImage
 };

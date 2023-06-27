@@ -71,7 +71,7 @@
                             android:background="@drawable/cuadro_editext"
                             android:hint="Contraseña"
                             android:gravity="center_vertical"
-                            android:paddingStart="20dp"
+                            android:paddingStart="10dp"
                             android:paddingEnd="20dp"
                             android:textSize="16sp"
                             android:inputType="textPassword"
