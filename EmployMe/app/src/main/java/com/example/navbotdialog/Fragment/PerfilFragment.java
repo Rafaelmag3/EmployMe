@@ -125,7 +125,7 @@ public class PerfilFragment extends Fragment {
 
             case R.id.opcion_galery:
                 openGalery();
-                Toast.makeText(getActivity(), "Galeria", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "Galeria", Toast.LENGTH_SHORT).show();
                 return true;
 
             default:
@@ -188,6 +188,8 @@ public class PerfilFragment extends Fragment {
         return rootView;
     }
 
+    private String imagePath;
+
     //Abrir camara
     private void openCamera(){
         //Capturar Imagen
@@ -222,7 +224,7 @@ public class PerfilFragment extends Fragment {
         galeryARL.launch(intent);
     }
 
-    //Morar imagen desde la galeria
+    //Mostrar imagen desde la galeria
     private ActivityResultLauncher<Intent> galeryARL = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -231,7 +233,19 @@ public class PerfilFragment extends Fragment {
                     if(result.getResultCode() == Activity.RESULT_OK){
                         Intent data = result.getData();
                         uri = data.getData();
-                        imgProfile.setImageURI(uri);
+
+                        try {
+                            Bitmap selectedImage = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
+                            int targetWidth = getResources().getDimensionPixelSize(R.dimen.image_width);
+                            int targetHeight = getResources().getDimensionPixelSize(R.dimen.image_height);
+                            Bitmap resizedBitmap = Bitmap.createScaledBitmap(selectedImage, targetWidth, targetHeight, true);
+
+                            Bitmap circularBitmap = getRoundedBitmap(resizedBitmap);
+                            imgProfile.setImageBitmap(circularBitmap);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
                     }else{
                         Toast.makeText(getActivity(), "Cancelado", Toast.LENGTH_SHORT).show();
                     }
@@ -239,15 +253,12 @@ public class PerfilFragment extends Fragment {
             }
     );
 
-    //Resultado de la actividad
-    private String imagePath;
+    //Resultado de la actividad "Mostar imagen"
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         imagePath = currentPhotoPath;
-
-
         if (requestCode == 1 && resultCode == RESULT_OK) {
             Bitmap imgBitmap = BitmapFactory.decodeFile(imagePath);
 
@@ -328,7 +339,6 @@ public class PerfilFragment extends Fragment {
 
         return output;
     }
-
 
     //Peticon GET
     private void getUserData(int userId) {
