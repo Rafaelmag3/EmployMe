@@ -1,5 +1,6 @@
 const db = require('../config/connection');
 const multer = require('multer');
+const bcrypt = require('bcrypt');
 
 function getUserById(id, callback) {
   console.log(id);
@@ -8,34 +9,51 @@ function getUserById(id, callback) {
 }
 
 function login(email, password, callback) {
-  const query = 'SELECT idUser FROM user WHERE email = ? AND password = ?';
-  db.query(query, [email, password], (error, results) => {
+  const query = 'SELECT idUser, password FROM user WHERE email = ?';
+  db.query(query, [email], (error, results) => {
     if (error) {
       console.error('Error al realizar el inicio de sesión: ', error);
       callback(error, null);
     } else if (results.length === 0) {
-
       callback(false, null);
     } else {
-      const user = {
-        idUser: results[0].idUser,
-      };
-      callback(null, user);
+      const storedPassword = results[0].password;
+      bcrypt.compare(password, storedPassword, (error, isMatch) => {
+        if (error) {
+          console.error('Error al realizar el inicio de sesión: ', error);
+          callback(error, null);
+        } else if (isMatch) {
+          const user = {
+            idUser: results[0].idUser,
+          };
+          callback(null, user);
+        } else {
+          callback(false, null);
+        }
+      });
     }
   });
 }
 
 function createUser(user, callback) {
-  const query = 'INSERT INTO user (nameUser, email, password, phone, dateRegister, id_category) VALUES (?, ?, ?, ?, ?, ?)';
-  const values = [user.nameUser, user.email, user.password, user.phone, user.dateRegister, user.id_category];
-
-  db.query(query, values, (error, result) => {
+  // Generar un hash de la contraseña
+  bcrypt.hash(user.password, 10, (error, hashedPassword) => {
     if (error) {
       callback(error, null);
-    } else {
-
-      callback(null, result.insertId);
+      return;
     }
+
+    const query = 'INSERT INTO user (nameUser, email, password, phone, dateRegister, id_category, routesPhoto) VALUES (?, ?, ?, ?, ?, ?, "uploads/defaultImage.jpg")';
+
+    const values = [user.nameUser, user.email, hashedPassword, user.phone, user.dateRegister, user.id_category];
+
+    db.query(query, values, (error, result) => {
+      if (error) {
+        callback(error, null);
+      } else {
+        callback(null, result.insertId);
+      }
+    });
   });
 }
 

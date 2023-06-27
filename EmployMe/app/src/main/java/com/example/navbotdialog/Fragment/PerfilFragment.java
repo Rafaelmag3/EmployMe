@@ -184,7 +184,6 @@ public class PerfilFragment extends Fragment {
             }
         });
 
-
         return rootView;
     }
 
@@ -247,7 +246,7 @@ public class PerfilFragment extends Fragment {
                         }
 
                     }else{
-                        Toast.makeText(getActivity(), "Cancelado", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Fotografia no cambiada", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
