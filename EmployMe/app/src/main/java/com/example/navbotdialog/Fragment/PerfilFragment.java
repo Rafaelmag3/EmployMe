@@ -2,6 +2,7 @@ package com.example.navbotdialog.Fragment;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,6 +17,11 @@ import android.net.Uri;
 import android.os.Bundle;
 
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
@@ -100,6 +106,8 @@ public class PerfilFragment extends Fragment {
     private ImageView takePhoto, imgProfile;
     private TextView nameProfileTV, emailProfileTV;
 
+    private Uri uri = null;
+
     @Override
     public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
@@ -112,10 +120,11 @@ public class PerfilFragment extends Fragment {
         switch (item.getItemId()){
             case R.id.option_camera:
                 openCamera();
-                Toast.makeText(getActivity(), "Camara", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "Camara", Toast.LENGTH_SHORT).show();
                 return true;
 
             case R.id.opcion_galery:
+                openGalery();
                 Toast.makeText(getActivity(), "Galeria", Toast.LENGTH_SHORT).show();
                 return true;
 
@@ -158,14 +167,15 @@ public class PerfilFragment extends Fragment {
         takePhoto = rootView.findViewById(R.id.takePhoto);
         imgProfile = rootView.findViewById(R.id.imgProfile);
 
-        //Tocar para abrir la camara
+        //Mostar menú para abrir la camara o galeria
+        registerForContextMenu(takePhoto);
         takePhoto.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    openCamera();
+                    v.showContextMenu();
                 }
             });
-
+        //Mostar menú para abrir la camara o galeria
         registerForContextMenu(imgProfile);
         imgProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,16 +185,11 @@ public class PerfilFragment extends Fragment {
         });
 
 
-
-
-
-
         return rootView;
     }
 
-
     //Abrir camara
-    private  void openCamera(){
+    private void openCamera(){
         //Capturar Imagen
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -208,12 +213,34 @@ public class PerfilFragment extends Fragment {
 
         }
 
-
     }
+
+    //Abrir galeria
+    private  void openGalery(){
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        galeryARL.launch(intent);
+    }
+
+    //Morar imagen desde la galeria
+    private ActivityResultLauncher<Intent> galeryARL = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if(result.getResultCode() == Activity.RESULT_OK){
+                        Intent data = result.getData();
+                        uri = data.getData();
+                        imgProfile.setImageURI(uri);
+                    }else{
+                        Toast.makeText(getActivity(), "Cancelado", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+    );
 
     //Resultado de la actividad
     private String imagePath;
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

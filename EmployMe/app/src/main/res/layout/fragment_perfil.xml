@@ -6,7 +6,6 @@
     android:background="@color/gris_claro"
     tools:context=".Fragment.PerfilFragment">
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -31,22 +30,22 @@
                 android:gravity="center" />
 
 
-        <LinearLayout
-            android:layout_width="165dp"
-            android:layout_height="170dp"
-            android:padding="1dp"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center"
-            android:background="@drawable/rounded_background">
+            <LinearLayout
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:padding="4dp"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:background="@drawable/rounded_background">
 
-            <ImageView
-                android:id="@+id/imgProfile"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/user_img"
-                 />
+                <ImageView
+                    android:id="@+id/imgProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/user_img"
+                    />
 
-        </LinearLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -107,7 +106,7 @@
                 android:textColor="@color/grey"
                 android:textStyle="bold"
                 android:textSize="15sp"
-                 />
+                />
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -123,9 +122,6 @@
 
     </RelativeLayout>
 
-
-
-
     <ImageButton
         android:id="@+id/settingsButton"
         android:layout_width="40dp"
@@ -135,10 +131,5 @@
         android:background="@android:color/transparent"
         android:padding="10dp"
         android:contentDescription="Botón de configuración" />
-
-
-
-
-
 
 </FrameLayout>
