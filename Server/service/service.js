@@ -79,12 +79,15 @@ function saveImage(destinationPath) {
       cd(null, destinationPath);
     },
     filename: function (req, file, cd) {
-      cd(null, file.originalname)
+      cd(null, file.originalname);
+      console.log(file.originalname);
     }
   });
-  return multer({ storage: storage });
 
+  return multer({ storage: storage }).single('file');
 }
+
+
 
 
 module.exports = {
@@ -92,5 +95,5 @@ module.exports = {
   login,
   createUser,
   checkUserExistence,
-  saveImage
+  saveImage,
 };

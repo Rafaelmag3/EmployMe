@@ -20,7 +20,6 @@ import android.os.Bundle;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,9 +27,7 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
 import android.os.Environment;
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
-import android.text.Layout;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -43,7 +40,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -52,16 +51,18 @@ import com.example.navbotdialog.APIUtils;
 import com.example.navbotdialog.EditProfile;
 import com.example.navbotdialog.R;
 import com.example.navbotdialog.UserSession;
+import com.example.navbotdialog.VolleyMultipartRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import kotlin.jvm.internal.PropertyReference0Impl;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -210,6 +211,8 @@ public class PerfilFragment extends Fragment {
                         "com.example.navbotdialog.fileprovider", imageFile);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
                 startActivityForResult(intent, 1);
+
+
             }
 
         }
@@ -232,6 +235,7 @@ public class PerfilFragment extends Fragment {
                     if(result.getResultCode() == Activity.RESULT_OK){
                         Intent data = result.getData();
                         uri = data.getData();
+
 
                         try {
                             Bitmap selectedImage = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
@@ -261,6 +265,9 @@ public class PerfilFragment extends Fragment {
         if (requestCode == 1 && resultCode == RESULT_OK) {
             Bitmap imgBitmap = BitmapFactory.decodeFile(imagePath);
 
+            System.out.println("--> Ruta de imagen local "+imagePath);
+            updateImage(imagePath);
+
             // Handle image orientation
             try {
                 ExifInterface exifInterface = new ExifInterface(currentPhotoPath);
@@ -277,7 +284,6 @@ public class PerfilFragment extends Fragment {
                         matrix.postRotate(270);
                         break;
                     default:
-                        // No rotation needed
                         break;
                 }
                 imgBitmap = Bitmap.createBitmap(imgBitmap, 0, 0, imgBitmap.getWidth(), imgBitmap.getHeight(), matrix, true);
@@ -285,13 +291,15 @@ public class PerfilFragment extends Fragment {
                 e.printStackTrace();
             }
 
-            // Continue with image processing
+            //
             int targetWidth = getResources().getDimensionPixelSize(R.dimen.image_width);
             int targetHeight = getResources().getDimensionPixelSize(R.dimen.image_height);
             Bitmap resizedBitmap = Bitmap.createScaledBitmap(imgBitmap, targetWidth, targetHeight, true);
             Bitmap circularBitmap = getRoundedBitmap(resizedBitmap);
 
             imgProfile.setImageBitmap(circularBitmap);
+
+
         }
     }
 
@@ -317,9 +325,61 @@ public class PerfilFragment extends Fragment {
 
         // Save the file path for later use
         currentPhotoPath = image.getAbsolutePath();
-        Log.e("Imagen: ", currentPhotoPath);
+
         return image;
     }
+
+
+    //Solicitud POST para enviar imagen
+
+
+    public void updateImage(String imagePath) {
+        System.out.println("--> Ruta recibida imagen Ruta: " + imagePath);
+
+        Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+
+        String fileName = getImageFileName(imagePath); // Obtener el nombre del archivo con la extensión
+
+        String url = APIUtils.getFullUrl("upload");
+
+        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, url,
+                new Response.Listener<NetworkResponse>() {
+                    @Override
+                    public void onResponse(NetworkResponse response) {
+                        String result = new String(response.data);
+                        Toast.makeText(getActivity(), "Imagen enviada correctamente", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getContext(), "Error al enviar la imagen", Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+            @Override
+            public Map<String, DataPart> getByteData() {
+                return null;
+            }
+        };
+
+        // Agregar parámetro de imagen con el nombre de archivo
+        VolleyMultipartRequest.DataPart dataPart = new VolleyMultipartRequest.DataPart("file", imageBytes, "image/jpeg");
+        multipartRequest.addByteDataParam(fileName, dataPart);
+
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(multipartRequest);
+    }
+
+    private String getImageFileName(String imagePath) {
+        File file = new File(imagePath);
+        return file.getName();
+    }
+
+
+
 
     //Ajustar propiedades de la fotografia
     private Bitmap getRoundedBitmap(Bitmap bitmap) {

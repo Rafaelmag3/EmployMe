@@ -174,6 +174,7 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     // Los campos no están vacíos, realizar el inicio de sesión
                     iniciarSesion(email, password);
+
                 }
             }
         });
@@ -234,7 +235,6 @@ public class LoginActivity extends AppCompatActivity {
                                 if (message.equals("Inicio de sesión exitoso")) {
                                     // La conexión fue exitosa y el usuario está autenticado
                                     // Redireccionar a MainActivity
-
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                     startActivity(intent);
                                     finish(); // Opcionalmente, finalizar la actividad actual
@@ -261,11 +261,10 @@ public class LoginActivity extends AppCompatActivity {
                         // Ocurrió un error en la solicitud
                         // Registrar el error en los registros de la aplicación
                         Log.e("LoginActivity", "Error en la solicitud HTTP: " + error.toString());
-                        Toast.makeText(LoginActivity.this, "Lo sentimos. Problemas con el servidor", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Datos incorrectos", Toast.LENGTH_SHORT).show();
 
                     }
                 });
-
         // Agregar la solicitud a la cola de solicitudes de Volley
         Volley.newRequestQueue(this).add(jsonObjectRequest);
     }

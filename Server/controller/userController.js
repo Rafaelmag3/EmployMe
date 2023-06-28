@@ -49,7 +49,6 @@ function createUser(req, res) {
             res.status(500).send('Error al crear el usuario');
         } else {
             res.send('Usuario creado correctamente');
-
         }
     });
 }
@@ -71,18 +70,24 @@ function checkUserExistence(req, res) {
 }
 
 function uploadImage(req, res, destinationPath) {
-    const upload = userService.saveImage(destinationPath).single('file');
-
+    const upload = userService.saveImage(destinationPath);
+  
     upload(req, res, function (err) {
-        if (err) {
-            console.error(err);
-            res.status(500).send('Error al guardar la imagen');
+      if (err) {
+        res.status(500).send('Error al guardar la imagen');
+        console.log('Error al guardar la imagen');
+      } else {
+        if (req.file) {
+          res.status(200).send('Imagen guardada correctamente');
+          console.log('Imagen guardada correctamente');
         } else {
-            res.status(200).send('Imagen guardada correctamente');
+          res.status(400).send('No se envió ninguna imagen');
+          console.log('No se envió ninguna imagen');
         }
+      }
     });
-}
-
+  }
+  
 
 module.exports = {
     getUserById,
