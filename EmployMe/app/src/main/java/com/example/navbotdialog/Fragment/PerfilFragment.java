@@ -35,8 +35,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,7 +49,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.bumptech.glide.Glide;
 import com.example.navbotdialog.APIUtils;
 import com.example.navbotdialog.EditProfile;
 import com.example.navbotdialog.R;
@@ -60,9 +61,9 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -108,6 +109,8 @@ public class PerfilFragment extends Fragment {
     private ImageView takePhoto, imgProfile;
     private TextView nameProfileTV, emailProfileTV, dateRegisterTV, categoryTV;
 
+    private ListView skillsListlv;
+
     private Uri uri = null;
 
     @Override
@@ -152,6 +155,8 @@ public class PerfilFragment extends Fragment {
         nameProfileTV = rootView.findViewById(R.id.nameProfile);
         emailProfileTV = rootView.findViewById(R.id.emailProfile);
         categoryTV = rootView.findViewById(R.id.categoryTV);
+        skillsListlv = rootView.findViewById(R.id.skillsList);
+
 
         // Realizar la solicitud GET para obtener los datos del usuario
         getUserData(userId);
@@ -416,6 +421,9 @@ public class PerfilFragment extends Fragment {
                             String userName = response.getString("nameUser");
                             String userEmail = response.getString("email");
                             String userCategory = response.getString("categoria");
+                            String[] skillsList = response.getString("skills").split(",");
+
+                            System.out.println("Skills: " + skillsList);
 
                             String urlFoto = response.getString("routesPhoto");
 
@@ -424,6 +432,10 @@ public class PerfilFragment extends Fragment {
                             emailProfileTV.setText(userEmail);
                             categoryTV.setText(userCategory);
 
+                            if(isAdded()){
+                                ArrayAdapter<String> skills = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, skillsList);
+                                skillsListlv.setAdapter(skills);
+                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
