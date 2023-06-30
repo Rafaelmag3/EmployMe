@@ -35,8 +35,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,9 +61,9 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -105,7 +107,9 @@ public class PerfilFragment extends Fragment {
 
 
     private ImageView takePhoto, imgProfile;
-    private TextView nameProfileTV, emailProfileTV;
+    private TextView nameProfileTV, emailProfileTV, dateRegisterTV, categoryTV;
+
+    private ListView skillsListlv;
 
     private Uri uri = null;
 
@@ -150,6 +154,10 @@ public class PerfilFragment extends Fragment {
         //Asignar datos
         nameProfileTV = rootView.findViewById(R.id.nameProfile);
         emailProfileTV = rootView.findViewById(R.id.emailProfile);
+        categoryTV = rootView.findViewById(R.id.categoryTV);
+        skillsListlv = rootView.findViewById(R.id.skillsList);
+
+
         // Realizar la solicitud GET para obtener los datos del usuario
         getUserData(userId);
 
@@ -226,7 +234,7 @@ public class PerfilFragment extends Fragment {
         galeryARL.launch(intent);
     }
 
-    //Mostrar imagen desde la galeria
+    //Mostrar imagen desde la GALERIA
     private ActivityResultLauncher<Intent> galeryARL = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -245,6 +253,7 @@ public class PerfilFragment extends Fragment {
 
                             Bitmap circularBitmap = getRoundedBitmap(resizedBitmap);
                             imgProfile.setImageBitmap(circularBitmap);
+
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -256,21 +265,19 @@ public class PerfilFragment extends Fragment {
             }
     );
 
-    //Resultado de la actividad "Mostar imagen"
-
+    //Resultado de la actividad "Mostar imagen de FOTOGRAFIA"
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         imagePath = currentPhotoPath;
         if (requestCode == 1 && resultCode == RESULT_OK) {
             Bitmap imgBitmap = BitmapFactory.decodeFile(imagePath);
-
-            System.out.println("--> Ruta de imagen local "+imagePath);
             updateImage(imagePath);
+            System.out.println("--> Ruta de imagen local "+imagePath);
 
             // Handle image orientation
             try {
-                ExifInterface exifInterface = new ExifInterface(currentPhotoPath);
+                ExifInterface exifInterface = new ExifInterface(imagePath);
                 int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
                 Matrix matrix = new Matrix();
                 switch (orientation) {
@@ -298,8 +305,6 @@ public class PerfilFragment extends Fragment {
             Bitmap circularBitmap = getRoundedBitmap(resizedBitmap);
 
             imgProfile.setImageBitmap(circularBitmap);
-
-
         }
     }
 
@@ -331,8 +336,6 @@ public class PerfilFragment extends Fragment {
 
 
     //Solicitud POST para enviar imagen
-
-
     public void updateImage(String imagePath) {
         System.out.println("--> Ruta recibida imagen Ruta: " + imagePath);
 
@@ -343,6 +346,8 @@ public class PerfilFragment extends Fragment {
 
         String fileName = getImageFileName(imagePath); // Obtener el nombre del archivo con la extensión
 
+
+
         String url = APIUtils.getFullUrl("upload");
 
         VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, url,
@@ -350,13 +355,13 @@ public class PerfilFragment extends Fragment {
                     @Override
                     public void onResponse(NetworkResponse response) {
                         String result = new String(response.data);
-                        Toast.makeText(getActivity(), "Imagen enviada correctamente", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Imagen Actualizada", Toast.LENGTH_SHORT).show();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getContext(), "Error al enviar la imagen", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Error al actualizar", Toast.LENGTH_SHORT).show();
                     }
                 }) {
             @Override
@@ -378,9 +383,6 @@ public class PerfilFragment extends Fragment {
         return file.getName();
     }
 
-
-
-
     //Ajustar propiedades de la fotografia
     private Bitmap getRoundedBitmap(Bitmap bitmap) {
         int width = bitmap.getWidth();
@@ -401,6 +403,8 @@ public class PerfilFragment extends Fragment {
 
     //Peticon GET
     private void getUserData(int userId) {
+
+        System.out.println("Id requerida: "+userId);
         // Construir la URL de la solicitud GET
         String url = APIUtils.getFullUrl("user/" + userId);
 
@@ -415,11 +419,23 @@ public class PerfilFragment extends Fragment {
                             // Obtener los datos del usuario del objeto JSON response
                             String userName = response.getString("nameUser");
                             String userEmail = response.getString("email");
+                            String userCategory = response.getString("categoria");
+                            String[] skillsList = response.getString("skills").split(",");
+
+
+                            System.out.println("Skills: " + skillsList);
+
+                            String urlFoto = response.getString("routesPhoto");
 
                             // Mostrar los datos en los TextView
                             nameProfileTV.setText(userName);
                             emailProfileTV.setText(userEmail);
+                            categoryTV.setText(userCategory);
 
+                            if(isAdded()){
+                                ArrayAdapter<String> skills = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, skillsList);
+                                skillsListlv.setAdapter(skills);
+                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
