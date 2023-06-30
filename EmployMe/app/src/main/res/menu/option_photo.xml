@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <item
         android:id="@+id/option_camera"
-
+        android:icon="@drawable/ico_camara"
         android:title="Camara" />
     <item
         android:id="@+id/opcion_galery"
-
+        android:icon="@drawable/ico_galeria"
         android:title="Galeria" />
+
 </menu>

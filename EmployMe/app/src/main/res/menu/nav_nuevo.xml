@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <item android:title="">
         <menu>
             <item
                 android:id="@+id/menu_home"
-                android:icon="@drawable/ico_home"
-                android:title="Home">
+                app:actionLayout="@layout/lottie_home"
+                tools:ignore="MenuTitle">
 
             </item>
             <item
                 android:id="@+id/menu_herramientas"
-                android:icon="@drawable/ico_calculadora"
-                android:title="Herramientas">
+                app:actionLayout="@layout/lottie_tools"
+                tools:ignore="MenuTitle">
 
             </item>
         </menu>
