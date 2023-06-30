@@ -383,9 +383,6 @@ public class PerfilFragment extends Fragment {
         return file.getName();
     }
 
-
-
-
     //Ajustar propiedades de la fotografia
     private Bitmap getRoundedBitmap(Bitmap bitmap) {
         int width = bitmap.getWidth();
@@ -406,6 +403,8 @@ public class PerfilFragment extends Fragment {
 
     //Peticon GET
     private void getUserData(int userId) {
+
+        System.out.println("Id requerida: "+userId);
         // Construir la URL de la solicitud GET
         String url = APIUtils.getFullUrl("user/" + userId);
 
@@ -422,6 +421,7 @@ public class PerfilFragment extends Fragment {
                             String userEmail = response.getString("email");
                             String userCategory = response.getString("categoria");
                             String[] skillsList = response.getString("skills").split(",");
+
 
                             System.out.println("Skills: " + skillsList);
 

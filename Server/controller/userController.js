@@ -4,7 +4,7 @@ const multer = require('multer');
 
 function getUserById(req, res) {
     const { id_user } = req.params;
-    //console.log(id_user);
+    
     userService.getUserById(id_user, (error, results) => {
         if (error) {
             console.error('Error al obtener el usuario: ', error);
