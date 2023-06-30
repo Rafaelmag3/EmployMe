@@ -106,7 +106,7 @@ public class PerfilFragment extends Fragment {
 
 
     private ImageView takePhoto, imgProfile;
-    private TextView nameProfileTV, emailProfileTV, dateRegisterTV;
+    private TextView nameProfileTV, emailProfileTV, dateRegisterTV, categoryTV;
 
     private Uri uri = null;
 
@@ -151,6 +151,7 @@ public class PerfilFragment extends Fragment {
         //Asignar datos
         nameProfileTV = rootView.findViewById(R.id.nameProfile);
         emailProfileTV = rootView.findViewById(R.id.emailProfile);
+        categoryTV = rootView.findViewById(R.id.categoryTV);
 
         // Realizar la solicitud GET para obtener los datos del usuario
         getUserData(userId);
@@ -414,12 +415,14 @@ public class PerfilFragment extends Fragment {
                             // Obtener los datos del usuario del objeto JSON response
                             String userName = response.getString("nameUser");
                             String userEmail = response.getString("email");
+                            String userCategory = response.getString("categoria");
 
                             String urlFoto = response.getString("routesPhoto");
 
                             // Mostrar los datos en los TextView
                             nameProfileTV.setText(userName);
                             emailProfileTV.setText(userEmail);
+                            categoryTV.setText(userCategory);
 
 
                         } catch (JSONException e) {
