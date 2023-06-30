@@ -47,6 +47,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.example.navbotdialog.APIUtils;
 import com.example.navbotdialog.EditProfile;
 import com.example.navbotdialog.R;
@@ -105,7 +106,7 @@ public class PerfilFragment extends Fragment {
 
 
     private ImageView takePhoto, imgProfile;
-    private TextView nameProfileTV, emailProfileTV;
+    private TextView nameProfileTV, emailProfileTV, dateRegisterTV;
 
     private Uri uri = null;
 
@@ -150,6 +151,7 @@ public class PerfilFragment extends Fragment {
         //Asignar datos
         nameProfileTV = rootView.findViewById(R.id.nameProfile);
         emailProfileTV = rootView.findViewById(R.id.emailProfile);
+
         // Realizar la solicitud GET para obtener los datos del usuario
         getUserData(userId);
 
@@ -226,7 +228,7 @@ public class PerfilFragment extends Fragment {
         galeryARL.launch(intent);
     }
 
-    //Mostrar imagen desde la galeria
+    //Mostrar imagen desde la GALERIA
     private ActivityResultLauncher<Intent> galeryARL = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -245,6 +247,7 @@ public class PerfilFragment extends Fragment {
 
                             Bitmap circularBitmap = getRoundedBitmap(resizedBitmap);
                             imgProfile.setImageBitmap(circularBitmap);
+
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -256,21 +259,19 @@ public class PerfilFragment extends Fragment {
             }
     );
 
-    //Resultado de la actividad "Mostar imagen"
-
+    //Resultado de la actividad "Mostar imagen de FOTOGRAFIA"
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         imagePath = currentPhotoPath;
         if (requestCode == 1 && resultCode == RESULT_OK) {
             Bitmap imgBitmap = BitmapFactory.decodeFile(imagePath);
-
-            System.out.println("--> Ruta de imagen local "+imagePath);
             updateImage(imagePath);
+            System.out.println("--> Ruta de imagen local "+imagePath);
 
             // Handle image orientation
             try {
-                ExifInterface exifInterface = new ExifInterface(currentPhotoPath);
+                ExifInterface exifInterface = new ExifInterface(imagePath);
                 int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
                 Matrix matrix = new Matrix();
                 switch (orientation) {
@@ -298,8 +299,6 @@ public class PerfilFragment extends Fragment {
             Bitmap circularBitmap = getRoundedBitmap(resizedBitmap);
 
             imgProfile.setImageBitmap(circularBitmap);
-
-
         }
     }
 
@@ -331,8 +330,6 @@ public class PerfilFragment extends Fragment {
 
 
     //Solicitud POST para enviar imagen
-
-
     public void updateImage(String imagePath) {
         System.out.println("--> Ruta recibida imagen Ruta: " + imagePath);
 
@@ -343,6 +340,8 @@ public class PerfilFragment extends Fragment {
 
         String fileName = getImageFileName(imagePath); // Obtener el nombre del archivo con la extensión
 
+
+
         String url = APIUtils.getFullUrl("upload");
 
         VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, url,
@@ -350,13 +349,13 @@ public class PerfilFragment extends Fragment {
                     @Override
                     public void onResponse(NetworkResponse response) {
                         String result = new String(response.data);
-                        Toast.makeText(getActivity(), "Imagen enviada correctamente", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Imagen Actualizada", Toast.LENGTH_SHORT).show();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getContext(), "Error al enviar la imagen", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Error al actualizar", Toast.LENGTH_SHORT).show();
                     }
                 }) {
             @Override
@@ -415,6 +414,8 @@ public class PerfilFragment extends Fragment {
                             // Obtener los datos del usuario del objeto JSON response
                             String userName = response.getString("nameUser");
                             String userEmail = response.getString("email");
+
+                            String urlFoto = response.getString("routesPhoto");
 
                             // Mostrar los datos en los TextView
                             nameProfileTV.setText(userName);

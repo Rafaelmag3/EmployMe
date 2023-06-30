@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 
 function getUserById(id, callback) {
   console.log(id);
-  const query = 'SELECT * FROM user WHERE idUser = ?';
+  const query = 'SELECT idUser, nameUser, email, phone, dateRegister, categoria, routesPhoto From user LEFT JOIN category ON user.id_category = category.id_category WHERE idUser = ?';
   db.query(query, [id], callback);
 }
 
@@ -43,7 +43,7 @@ function createUser(user, callback) {
       return;
     }
 
-    const query = 'INSERT INTO user (nameUser, email, password, phone, dateRegister, id_category, routesPhoto) VALUES (?, ?, ?, ?, ?, ?, "uploads/defaultImage.jpg")';
+    const query = 'INSERT INTO user (nameUser, email, password, phone, dateRegister, id_category, routesPhoto) VALUES (?, ?, ?, ?, ?, ?, "uploads/defaultImage.png")';
 
     const values = [user.nameUser, user.email, hashedPassword, user.phone, user.dateRegister, user.id_category];
 
