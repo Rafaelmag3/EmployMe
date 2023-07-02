@@ -19,22 +19,6 @@
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="150dp"
-                android:layout_marginTop="20dp"
-                android:layout_gravity="center"
-                android:background="@drawable/rounded_background">
-
-                <androidx.constraintlayout.utils.widget.ImageFilterView
-                    android:id="@+id/imgProfile"
-                    android:layout_width="150dp"
-                    android:layout_height="145dp"
-
-                    android:src="@drawable/user_img" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
                 android:layout_marginTop="-35dp"
@@ -48,12 +32,11 @@
                     />
             </LinearLayout>
 
-
-
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
                 android:padding="15dp"
                 android:text="Información Personal:"
                 android:textColor="@color/azul"
@@ -75,7 +58,7 @@
                 android:textColor="@color/black" />
 
             <EditText
-                android:id="@+id/apellidoPET"
+                android:id="@+id/catgoriaET"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="10dp"
@@ -83,13 +66,13 @@
                 android:background="@drawable/cuadro_editext"
                 android:drawableLeft="@drawable/ico_perfil"
                 android:drawablePadding="8dp"
-                android:hint="Apellido Paterno"
+                android:hint="Catgoria"
                 android:inputType="text"
                 android:padding="8dp"
                 android:textColor="@color/black" />
 
             <EditText
-                android:id="@+id/apellidoMET"
+                android:id="@+id/correoET"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="10dp"
@@ -97,8 +80,8 @@
                 android:background="@drawable/cuadro_editext"
                 android:drawableLeft="@drawable/ico_perfil"
                 android:drawablePadding="8dp"
-                android:hint="Apellido Materno"
-                android:inputType="text"
+                android:hint="Correo"
+                android:inputType="textEmailAddress"
                 android:padding="8dp"
                 android:textColor="@color/black" />
 
@@ -146,7 +129,7 @@
                     android:layout_height="60dp"
                     android:drawableLeft="@drawable/ico_lock"
                     android:background="@drawable/cuadro_editext"
-                    android:hint="Contraseña"
+                    android:hint="Confirmar Contraseña"
                     android:paddingStart="10dp"
                     android:inputType="textPassword" />
 

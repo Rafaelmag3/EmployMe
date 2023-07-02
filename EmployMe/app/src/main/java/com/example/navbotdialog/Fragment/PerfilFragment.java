@@ -157,6 +157,13 @@ public class PerfilFragment extends Fragment {
         categoryTV = rootView.findViewById(R.id.categoryTV);
         skillsListlv = rootView.findViewById(R.id.skillsList);
 
+        categoryTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "Categoria", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         // Realizar la solicitud GET para obtener los datos del usuario
         getUserData(userId);
@@ -184,6 +191,7 @@ public class PerfilFragment extends Fragment {
                     v.showContextMenu();
                 }
             });
+
         //Mostar menú para abrir la camara o galeria
         registerForContextMenu(imgProfile);
         imgProfile.setOnClickListener(new View.OnClickListener() {
