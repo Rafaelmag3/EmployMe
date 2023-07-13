@@ -1,19 +1,5 @@
 package com.example.navbotdialog;
 
-<<<<<<< HEAD
-import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-public class Nav_Header extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.nav_header);
-
-    }
-
-=======
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -96,5 +82,4 @@ public class Nav_Header extends AppCompatActivity {
         Volley.newRequestQueue(getApplicationContext()).add(jsonObjectRequest);
     }
 
->>>>>>> 1642707f485478c672a228bdc47ecb043bafe4a6
 }
