@@ -11,7 +11,7 @@
         android:layout_height="24dp"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/home"/>
+        app:lottie_rawRes="@raw/home2"/>
 
     <TextView
         android:layout_width="wrap_content"
