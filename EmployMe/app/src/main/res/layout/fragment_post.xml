@@ -21,154 +21,151 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="55dp"
-        >
+        android:paddingTop="55dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="24dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="center_horizontal"
-                android:padding="24dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center_vertical">
-
-                    <EditText
-                        android:id="@+id/post_puesto_trabajo"
-                        android:layout_width="200dp"
-                        android:layout_height="50dp"
-                        android:background="@drawable/cuadro_editext"
-                        android:layout_marginTop="20dp"
-                        android:padding="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:hint="Puesto de trabajo"
-                        android:drawableLeft="@drawable/ico_perfil"
-                        android:textColor="@color/black"
-                        android:drawablePadding="8dp"/>
-                    <EditText
-                        android:id="@+id/post_No_vacantes"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:background="@drawable/cuadro_editext"
-                        android:layout_marginTop="20dp"
-                        android:padding="8dp"
-                        android:inputType="number"
-                        android:hint="No. Vacantes"
-                        android:textColor="@color/black"
-                        android:drawablePadding="8dp"/>
-
-                </LinearLayout>
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/post_Locacion"
-                    android:layout_width="match_parent"
+                    android:id="@+id/post_puesto_trabajo"
+                    android:layout_width="200dp"
                     android:layout_height="50dp"
-                    android:background="@drawable/cuadro_editext"
                     android:layout_marginTop="20dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/cuadro_editext"
+                    android:drawableLeft="@drawable/ico_perfil"
+                    android:drawablePadding="8dp"
+                    android:hint="Puesto de trabajo"
                     android:padding="8dp"
-                    android:hint="Pais"
-                    android:drawableLeft="@drawable/ico_locacion"
-                    android:textColor="@color/black"
-                    android:drawablePadding="8dp"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center_vertical">
-
-                    <EditText
-                        android:id="@+id/post_Horario"
-                        android:layout_width="150dp"
-                        android:layout_height="50dp"
-                        android:background="@drawable/cuadro_editext"
-                        android:layout_marginTop="20dp"
-                        android:padding="8dp"
-                        android:hint="Horario E."
-                        android:inputType="time"
-                        android:drawableLeft="@drawable/ic_historial"
-                        android:tint="@color/lavanda"
-                        android:textColor="@color/black"
-                        android:drawablePadding="8dp"/>
-
-                    <EditText
-                        android:id="@+id/post_Horario2"
-                        android:layout_width="150dp"
-                        android:layout_height="50dp"
-                        android:background="@drawable/cuadro_editext"
-                        android:layout_marginTop="20dp"
-                        android:padding="8dp"
-                        android:hint="Horario S."
-                        android:inputType="time"
-                        android:layout_margin="20dp"
-                        android:drawableLeft="@drawable/ic_historial"
-                        android:tint="@color/lavanda"
-                        android:textColor="@color/black"
-                        android:drawablePadding="8dp"
-                        tools:ignore="DuplicateIds" />
-
-                </LinearLayout>
+                    android:textColor="@color/black" />
 
                 <EditText
-                    android:id="@+id/post_Salario"
-                    android:layout_width="match_parent"
+                    android:id="@+id/post_No_vacantes"
+                    android:layout_width="wrap_content"
                     android:layout_height="50dp"
-                    android:background="@drawable/cuadro_editext"
                     android:layout_marginTop="20dp"
-                    android:padding="8dp"
-                    android:hint="Salario"
-                    android:text="Salario competitivo"
-                    android:drawableLeft="@drawable/ico_money"
-                    android:textColor="@color/black"
-                    android:drawablePadding="8dp"/>
-
-                <EditText
-                    android:id="@+id/post_Funciones_puesto"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
                     android:background="@drawable/cuadro_editext"
-                    android:layout_marginTop="20dp"
-                    android:padding="8dp"
-                    android:hint="Funciones del puesto"
-                    android:textColor="@color/black"
                     android:drawablePadding="8dp"
-                    android:maxLines="10"
-                    android:lines="5"
-                    android:gravity="top"
-                    />
-
-                <EditText
-                    android:id="@+id/post_Requisitos"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:background="@drawable/cuadro_editext"
-                    android:layout_marginTop="20dp"
+                    android:hint="No. Vacantes"
+                    android:inputType="number"
                     android:padding="8dp"
-                    android:hint="Requisitos del puesto"
-                    android:textColor="@color/black"
-                    android:drawablePadding="8dp"
-                    android:lines="5"
-                    android:gravity="top"
-                    />
-
-                <Button
-                    android:id="@+id/btnPost"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginTop="30dp"
-                    android:textSize="15sp"
-                    app:cornerRadius="10dp"
-                    android:text="Publicar"
-                    android:textColor="@color/white"
-                    android:backgroundTint="@color/azul"
-                    android:textAllCaps="true"
-                    />
+                    android:textColor="@color/black" />
 
             </LinearLayout>
+
+            <EditText
+                android:id="@+id/post_Locacion"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/cuadro_editext"
+                android:drawableLeft="@drawable/ico_locacion"
+                android:drawablePadding="8dp"
+                android:hint="Pais"
+                android:padding="8dp"
+                android:textColor="@color/black" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/post_Horario"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/cuadro_editext"
+                    android:drawableLeft="@drawable/ic_historial"
+                    android:drawablePadding="8dp"
+                    android:hint="Horario E."
+                    android:inputType="time"
+                    android:padding="8dp"
+                    android:textColor="@color/black"
+                    android:tint="@color/lavanda" />
+
+                <EditText
+                    android:id="@+id/post_Horario2"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="20dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/cuadro_editext"
+                    android:drawableLeft="@drawable/ic_historial"
+                    android:drawablePadding="8dp"
+                    android:hint="Horario S."
+                    android:inputType="time"
+                    android:padding="8dp"
+                    android:textColor="@color/black"
+                    android:tint="@color/lavanda"
+                    tools:ignore="DuplicateIds" />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/post_Salario"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/cuadro_editext"
+                android:drawableLeft="@drawable/ico_money"
+                android:drawablePadding="8dp"
+                android:hint="Salario"
+                android:padding="8dp"
+                android:text="Salario competitivo"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/post_Funciones_puesto"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/cuadro_editext"
+                android:drawablePadding="8dp"
+                android:gravity="top"
+                android:hint="Funciones del puesto"
+                android:lines="5"
+                android:maxLines="10"
+                android:padding="8dp"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/post_Requisitos"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/cuadro_editext"
+                android:drawablePadding="8dp"
+                android:gravity="top"
+                android:hint="Requisitos del puesto"
+                android:lines="5"
+                android:padding="8dp"
+                android:textColor="@color/black" />
+
+            <Button
+                android:id="@+id/btnPost"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="30dp"
+                android:backgroundTint="@color/azul"
+                android:text="Publicar"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                app:cornerRadius="10dp" />
+
+        </LinearLayout>
 
     </ScrollView>
 

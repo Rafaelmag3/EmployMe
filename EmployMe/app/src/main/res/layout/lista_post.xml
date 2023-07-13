@@ -7,8 +7,7 @@
     android:id="@+id/contenedor_post"
     app:cardCornerRadius="10dp"
     app:cardElevation="8dp"
-    android:layout_margin="8dp"
-    >
+    android:layout_margin="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,17 +20,17 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/img_perfil"
+                android:id="@+id/LP_img_perfil"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:src="@drawable/oficina"
                 android:scaleType="centerCrop"/>
 
             <TextView
-                android:id="@+id/txt_empresa"
+                android:id="@+id/LP_txt_empresa"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/img_perfil"
+                android:layout_toEndOf="@id/LP_img_perfil"
                 android:text="Nombre de la empresa"
                 android:textColor="@color/black"
                 android:textSize="16sp"
@@ -40,20 +39,30 @@
                 android:layout_marginBottom="4dp"/>
 
             <TextView
-                android:id="@+id/txt_correo"
+                android:id="@+id/LP_txt_correo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/img_perfil"
-                android:layout_below="@id/txt_empresa"
+                android:layout_toEndOf="@id/LP_img_perfil"
+                android:layout_below="@id/LP_txt_empresa"
                 android:text="correo@empresa.com"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:layout_marginStart="8dp"/>
 
+            <!-- Aqui cambiar la visivilidad -->
+
+            <ImageView
+                android:id="@+id/LP_imagen_Opciones"
+                android:layout_alignParentEnd="true"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ico_3puntos"
+                android:visibility="visible"/>
+
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/txt_puesto"
+            android:id="@+id/LP_txt_puesto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Puesto"
@@ -64,7 +73,7 @@
             android:layout_marginBottom="4dp"/>
 
         <TextView
-            android:id="@+id/txt_no_vacantes"
+            android:id="@+id/LP_txt_no_vacantes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="No. de vacantes"
@@ -73,7 +82,7 @@
             android:layout_marginBottom="4dp"/>
 
         <TextView
-            android:id="@+id/txt_locacion"
+            android:id="@+id/LP_txt_locacion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Locación"
@@ -82,7 +91,7 @@
             android:layout_marginBottom="4dp"/>
 
         <TextView
-            android:id="@+id/txt_horario"
+            android:id="@+id/LP_txt_horario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Horario"
@@ -91,7 +100,7 @@
             android:layout_marginBottom="4dp"/>
 
         <TextView
-            android:id="@+id/txt_salario"
+            android:id="@+id/LP_txt_salario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Salario"
@@ -100,7 +109,7 @@
             android:layout_marginBottom="4dp"/>
 
         <TextView
-            android:id="@+id/txt_funciones"
+            android:id="@+id/LP_txt_funciones"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Funciones"
@@ -109,7 +118,7 @@
             android:layout_marginBottom="4dp"/>
 
         <TextView
-            android:id="@+id/txt_requisitos"
+            android:id="@+id/LP_txt_requisitos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Requisitos"
@@ -118,7 +127,7 @@
             android:layout_marginBottom="4dp"/>
 
         <TextView
-            android:id="@+id/txt_fecha"
+            android:id="@+id/LP_txt_fecha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Fecha"
@@ -127,6 +136,7 @@
             android:layout_marginBottom="4dp"/>
 
         <Button
+            android:id="@+id/LP_btn_mostrarmas"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:text="Mostrar mas ->"

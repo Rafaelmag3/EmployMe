@@ -38,6 +38,7 @@ import com.example.navbotdialog.Fragment.PerfilFragment;
 import com.example.navbotdialog.Herramientas.Calculadora.CalculadoraFragment;
 import com.example.navbotdialog.Herramientas.Conversor.ConversorFragment;
 import com.example.navbotdialog.Herramientas.Notas.NotasFragment;
+import com.example.navbotdialog.Post.Mis_Post_Fragment;
 import com.example.navbotdialog.Post.PostFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -301,6 +302,21 @@ public class MainActivity extends AppCompatActivity {
         dialog.setContentView(R.layout.bottomsheetlayout);
 
         LinearLayout post_layot = dialog.findViewById(R.id.bottonsheetlayout_post);
+        LinearLayout mis_post_layout = dialog.findViewById(R.id.bottonsheetlayout_mis_post);
+
+        mis_post_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+
+                // Inflar el fragmento "Post"
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frame_layout, new Mis_Post_Fragment());
+                fragmentTransaction.commit();
+
+            }
+        });
         post_layot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
