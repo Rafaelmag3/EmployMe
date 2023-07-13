@@ -32,7 +32,6 @@ public class PostFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -116,5 +115,5 @@ public class PostFragment extends Fragment {
             return false; // Al menos uno de los horarios no es válido
         }
     }
-    
+
 }
