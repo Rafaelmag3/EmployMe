@@ -37,6 +37,7 @@ import com.example.navbotdialog.Fragment.PerfilFragment;
 import com.example.navbotdialog.Herramientas.Calculadora.CalculadoraFragment;
 import com.example.navbotdialog.Herramientas.Conversor.ConversorFragment;
 import com.example.navbotdialog.Herramientas.Notas.NotasFragment;
+import com.example.navbotdialog.Post.PostFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -297,13 +298,18 @@ public class MainActivity extends AppCompatActivity {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.bottomsheetlayout);
 
-        LinearLayout videoLayout = dialog.findViewById(R.id.layoutVideo);
-        videoLayout.setOnClickListener(new View.OnClickListener() {
+        LinearLayout post_layot = dialog.findViewById(R.id.bottonsheetlayout_post);
+        post_layot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 dialog.dismiss();
-                Toast.makeText(MainActivity.this,"Upload a Video is clicked",Toast.LENGTH_SHORT).show();
+
+                // Inflar el fragmento "Post"
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frame_layout, new PostFragment());
+                fragmentTransaction.commit();
 
             }
         });

@@ -9,7 +9,7 @@
     android:gravity="bottom"
     android:padding="16dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
-    >
+    tools:context=".Nav_Header">
 
     <ImageView
         android:id="@+id/imgProfileNav"
@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
-        android:text="correo@gmail.com"
+        android:text="correo"
         android:textColor="@color/lavanda"
         android:textSize="14sp"
         android:layout_marginBottom="16dp"/>
