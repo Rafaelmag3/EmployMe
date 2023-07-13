@@ -63,7 +63,6 @@ public class LoginActivity extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
     ProgressDialog progressDialog;
 
-    private int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -211,7 +210,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                 Log.d("LoginActivity", "Response: " + response.toString());
 
-                                //Resibir Id de usuario con la respuesta del swervidor
+                                //Resibir Id de usuario con la respuesta del servidor
                                 int userId = userObject.optInt("idUser", 0);
 
                                 UserSession userSession = UserSession.getInstance();

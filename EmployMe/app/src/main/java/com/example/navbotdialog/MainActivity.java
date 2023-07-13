@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -87,7 +88,8 @@ public class MainActivity extends AppCompatActivity {
                     showCoordinatorLayout2();
                     getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new CalculadoraFragment()).commit();
                 } else if (itemId == R.id.salir) {
-                    showExitDialog();
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
                 }
 
                 return true;
