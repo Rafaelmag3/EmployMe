@@ -129,19 +129,22 @@ public class MainActivity extends AppCompatActivity {
 
                         // Cargar y reproducir la animación Lottie
                         LottieAnimationView animationView = new LottieAnimationView(getApplicationContext());
-                        animationView.setAnimation(R.raw.home);
+                        animationView.setAnimation(R.raw.home2);
                         animationView.playAnimation();
 
                         // Obtener el contenedor FrameLayout del fragmento
                         FrameLayout frameLayout = findViewById(R.id.nav_home);
                         frameLayout.removeAllViews(); // Limpiar cualquier vista anterior
 
-                        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
-                                FrameLayout.LayoutParams.WRAP_CONTENT,
-                                animationHeight
-                        );
-                        layoutParams.topMargin = topMargin; // Establecer el margen superior
-                        animationView.setLayoutParams(layoutParams);
+                        // Ajustar el tamaño del contenedor FrameLayout
+                        int desiredWidth = getResources().getDimensionPixelSize(R.dimen.animation_width);
+                        int desiredHeight = getResources().getDimensionPixelSize(R.dimen.animation_height);
+                        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(desiredWidth, desiredHeight);
+                        layoutParams.gravity = Gravity.CENTER; // Ajustar la gravedad si es necesario
+                        frameLayout.setLayoutParams(layoutParams);
+
+                        // Ajustar el tamaño del LottieAnimationView
+                        animationView.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
 
                         // Agregar el LottieAnimationView al contenedor FrameLayout
                         frameLayout.addView(animationView);
@@ -152,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
                         LottieAnimationView loveView = new LottieAnimationView(getApplicationContext());
                         loveView.setAnimation(R.raw.love);
                         loveView.playAnimation();
+
                         FrameLayout loveLayout = findViewById(R.id.nav_love);
                         loveLayout.removeAllViews();
 
