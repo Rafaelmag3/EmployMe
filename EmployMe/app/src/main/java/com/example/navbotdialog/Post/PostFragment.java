@@ -42,6 +42,7 @@ import java.util.Locale;
 
 public class PostFragment extends Fragment {
     EditText puesto, no_vacantes, locacion, horario_e, horario_s, salario, funciones, requisitos, post_DiaPublicacion, post_DiaLimite;
+
     Button btnpublicar;
 
     @Override
@@ -66,6 +67,7 @@ public class PostFragment extends Fragment {
         salario = rootView.findViewById(R.id.post_Salario);
         funciones = rootView.findViewById(R.id.post_Funciones_puesto);
         requisitos = rootView.findViewById(R.id.post_Requisitos);
+
 
         post_DiaPublicacion = rootView.findViewById(R.id.post_DiaPublicacion);
         post_DiaLimite = rootView.findViewById(R.id.post_DiaLimite);
@@ -209,45 +211,7 @@ public class PostFragment extends Fragment {
 
         datePickerDialog.show();
     }
-    private boolean camposEstanLlenos() {
-        String puestoTrabajo = puesto.getText().toString();
-        String noVacantes = no_vacantes.getText().toString();
-        String locacionPuesto = locacion.getText().toString();
-        String horarioEntrada = horario_e.getText().toString();
-        String horarioSalida = horario_s.getText().toString();
-        String salarioPuesto = salario.getText().toString();
-        String funcionesPuesto = funciones.getText().toString();
-        String requisitosPuesto = requisitos.getText().toString();
 
-        // Verificar si todos los campos tienen contenido
-        return !puestoTrabajo.isEmpty() &&
-                !noVacantes.isEmpty() &&
-                !locacionPuesto.isEmpty() &&
-                !horarioEntrada.isEmpty() &&
-                !horarioSalida.isEmpty() &&
-                !salarioPuesto.isEmpty() &&
-                !funcionesPuesto.isEmpty() &&
-                !requisitosPuesto.isEmpty();
-    }
-
-    private boolean horariosSonValidos() {
-        String horarioEntrada = horario_e.getText().toString();
-        String horarioSalida = horario_s.getText().toString();
-
-        try {
-            // Crear un objeto SimpleDateFormat con el formato de hora
-            SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm", Locale.getDefault());
-            formatoHora.setLenient(false);
-
-            // Parsear los horarios y verificar si son válidos
-            formatoHora.parse(horarioEntrada);
-            formatoHora.parse(horarioSalida);
-
-            return true; // Ambos horarios son válidos
-        } catch (ParseException e) {
-            return false; // Al menos uno de los horarios no es válido
-        }
-    }
 
     //PETICIÓN POST
     public void createOffer(String jobTitle, String description, String requirements, String publicationDate, String dueDate, String salary, String timeDeparture, String timeEntry, String vacancy, String country, int userId) {
@@ -287,5 +251,4 @@ public class PostFragment extends Fragment {
         // Agregar la solicitud a la cola de solicitudes de Volley
         Volley.newRequestQueue(requireActivity().getApplicationContext()).add(request);
     }
-
 }

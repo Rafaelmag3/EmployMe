@@ -76,7 +76,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
                 String data = listaPublicaciones.get(position);
-                String[] splitData = data.split(";"); // Dividir el dato en título y vacante
+                String[] splitData = data.split(";");
                 TextView textView = holder.itemView.findViewById(R.id.title);
                 TextView vacancy = holder.itemView.findViewById(R.id.vacancy);
                 TextView country = holder.itemView.findViewById(R.id.country);
@@ -85,6 +85,9 @@ public class HomeFragment extends Fragment {
                 TextView requirements = holder.itemView.findViewById(R.id.requirements);
                 TextView description = holder.itemView.findViewById(R.id.description);
                 TextView publicationDate = holder.itemView.findViewById(R.id.publicationDate);
+
+                TextView nameUser = holder.itemView.findViewById(R.id.nameUser);
+                TextView email = holder.itemView.findViewById(R.id.email);
                 textView.setText(splitData[0]);
                 vacancy.setText(splitData[1]);
                 country.setText(splitData[2]);
@@ -93,6 +96,8 @@ public class HomeFragment extends Fragment {
                 requirements.setText(splitData[5]);
                 description.setText(splitData[6]);
                 publicationDate.setText(splitData[7]);
+                nameUser.setText(splitData[8]);
+                email.setText(splitData[9]);
             }
 
             @Override
@@ -132,8 +137,10 @@ public class HomeFragment extends Fragment {
                                 String requirements = jsonObject.getString("requirements");
                                 String description = jsonObject.getString("description");
                                 String publicationDate = jsonObject.getString("publicationDate");
-                                String data = titulo + ";" + vacancy + ";" + country + ";" + timeEntry + ";" + salary + ";" + requirements + ";" + description + ";" + publicationDate;
-                                System.out.println("¿Llegó algo? " + data);
+                                String nameUser = jsonObject.getString("nameUser");
+                                String email = jsonObject.getString("email");
+                                String data = titulo + ";" + vacancy + ";" + country + ";" + timeEntry + ";" + salary + ";" + requirements + ";" + description + ";" + publicationDate + ";" + nameUser + ";" + email;
+
                                 tempList.add(data);
                             } catch (JSONException e) {
                                 e.printStackTrace();

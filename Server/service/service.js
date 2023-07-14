@@ -83,7 +83,7 @@ function createOffer(jobOffer, callback) {
 
 //Mostrar todas las ofertas
 function getAllOffers(callback) {
-  const query = 'SELECT * FROM joboffer';
+  const query = 'SELECT joboffer.*, user.nameUser, user.email FROM joboffer INNER JOIN user ON joboffer.id_user = user.idUser';
 
   db.query(query, (error, result) => {
     if (error) {

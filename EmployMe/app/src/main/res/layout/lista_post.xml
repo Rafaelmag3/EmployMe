@@ -28,7 +28,7 @@
                 android:scaleType="centerCrop"/>
 
             <TextView
-                android:id="@+id/LP_txt_empresa"
+                android:id="@+id/nameUser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/LP_img_perfil"
@@ -40,11 +40,11 @@
                 android:layout_marginBottom="4dp"/>
 
             <TextView
-                android:id="@+id/LP_txt_correo"
+                android:id="@+id/email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/LP_img_perfil"
-                android:layout_below="@id/LP_txt_empresa"
+                android:layout_below="@id/nameUser"
                 android:text="correo@empresa.com"
                 android:textColor="@color/black"
                 android:textSize="14sp"
