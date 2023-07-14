@@ -14,8 +14,11 @@ router.post('/userCreate', userController.createUser);
 
 router.post('/checkUserExistence', userController.checkUserExistence);
 
-
-router.post('/offertJob', jobOffer.createJobOffer)
+//Oferta de trabajo
+router.post('/offerJob', jobOffer.createJobOffer);
+router.get('/offers', jobOffer.getAllJobOffers);
+router.delete('/offer/:id', jobOffer.deleteJobOffer);
+router.put('/offer/:id', jobOffer.updateJobOffer);
 
 // Ruta para enviar el correo de verificación
 router.use(bodyParser.json());
