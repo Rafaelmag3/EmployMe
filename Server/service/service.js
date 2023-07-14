@@ -55,6 +55,7 @@ function createUser(user, callback) {
   });
 }
 
+//Crear Oferta de trabajo
 function createOffer(jobOffer, callback) {
   const query = `INSERT INTO joboffer (
       jobTitle,
@@ -76,6 +77,68 @@ function createOffer(jobOffer, callback) {
     }
   })
 }
+
+//Mostrar todas las ofertas
+function getAllOffers(callback) {
+  const query = 'SELECT * FROM joboffer';
+
+  db.query(query, (error, result) => {
+    if (error) {
+      callback(error, null);
+    } else {
+      callback(null, result);
+    }
+  });
+}
+
+//Eliminar oferta
+function deleteOffer(offerId, callback) {
+  const query = 'DELETE FROM joboffer WHERE id = ?';
+
+  db.query(query, offerId, (error, result) => {
+    if (error) {
+      callback(error, null);
+    } else {
+      callback(null, result);
+    }
+  });
+}
+
+//Modificar oferta
+function updateOffer(offerId, updatedOffer, callback) {
+  const query = `UPDATE joboffer SET 
+      jobTitle = ?,
+      description = ?,
+      requirements = ?,
+      publicationDate = ?,
+      dueDate = ?,
+      salary = ?,
+      timeDeparture = ?,
+      timeEntry = ?
+      WHERE id = ?`;
+
+  const values = [
+    updatedOffer.jobTitle,
+    updatedOffer.description,
+    updatedOffer.requirements,
+    updatedOffer.publicationDate,
+    updatedOffer.dueDate,
+    updatedOffer.salary,
+    updatedOffer.timeDeparture,
+    updatedOffer.timeEntry,
+    offerId
+  ];
+
+  db.query(query, values, (error, result) => {
+    if (error) {
+      callback(error, null);
+    } else {
+      callback(null, result);
+    }
+  });
+}
+
+
 
 function checkUserExistence(email, callback) {
   const query = 'SELECT * FROM user WHERE email = ?';
@@ -114,6 +177,9 @@ module.exports = {
   login,
   createUser,
   createOffer,
+  getAllOffers,
+  deleteOffer,
+  updateOffer,
   checkUserExistence,
   saveImage,
 };
