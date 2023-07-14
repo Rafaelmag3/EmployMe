@@ -13,7 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="10dp"
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -62,7 +63,7 @@
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/LP_txt_puesto"
+            android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Puesto"
@@ -73,10 +74,41 @@
             android:layout_marginBottom="4dp"/>
 
         <TextView
-            android:id="@+id/LP_txt_no_vacantes"
+            android:id="@+id/jobTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="No. de vacantes"
+            android:hint="Puesto"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"/>
+
+
+        <TextView
+            android:id="@+id/LP_txt_no_vacantes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="No. de vacantes:"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:layout_marginBottom="4dp"/>
+
+        <TextView
+            android:id="@+id/vacancy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="20"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:layout_marginBottom="4dp"/>
+
+        <TextView
+            android:id="@+id/getlocacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Locación"
             android:textColor="@color/black"
             android:textSize="14sp"
             android:layout_marginBottom="4dp"/>
@@ -85,7 +117,7 @@
             android:id="@+id/LP_txt_locacion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Locación"
+            android:hint="Locación"
             android:textColor="@color/black"
             android:textSize="14sp"
             android:layout_marginBottom="4dp"/>
@@ -98,6 +130,14 @@
             android:textColor="@color/black"
             android:textSize="14sp"
             android:layout_marginBottom="4dp"/>
+        <TextView
+            android:id="@+id/gethorario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Horario"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:layout_marginBottom="4dp"/>
 
         <TextView
             android:id="@+id/LP_txt_salario"
@@ -107,6 +147,16 @@
             android:textColor="@color/black"
             android:textSize="14sp"
             android:layout_marginBottom="4dp"/>
+
+        <TextView
+            android:id="@+id/getSalario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Salario"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:layout_marginBottom="4dp"/>
+
 
         <TextView
             android:id="@+id/LP_txt_funciones"
@@ -138,7 +188,7 @@
         <Button
             android:id="@+id/LP_btn_mostrarmas"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="50dp"
             android:text="Mostrar mas ->"
             android:textSize="10sp"
             />

@@ -251,7 +251,7 @@ public class PostFragment extends Fragment {
 
     //PETICIÓN POST
     public void createOffer(String jobTitle, String description, String requirements, String publicationDate, String dueDate, String salary, String timeDeparture, String timeEntry, String vacancy, String country, int userId) {
-        String url = APIUtils.getFullUrl("offertJob");
+        String url = APIUtils.getFullUrl("offerJob");
 
         JSONObject jsonBody = new JSONObject();
         try {
