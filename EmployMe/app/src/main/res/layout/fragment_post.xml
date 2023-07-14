@@ -7,28 +7,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Post.PostFragment">
 
-    <TextView
-        android:id="@+id/loginText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Nueva Oferta de Trabajo"
-        android:textAlignment="center"
-        android:textColor="@color/azul"
-        android:padding="10dp"
-        android:textSize="30sp"
-        android:textStyle="bold" />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="55dp">
-
+        >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:orientation="vertical"
-            android:padding="24dp">
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <TextView
+                android:id="@+id/loginText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nueva Oferta de Trabajo"
+                android:textAlignment="center"
+                android:textColor="@color/azul"
+                android:padding="10dp"
+                android:textSize="25sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -51,7 +51,7 @@
 
                 <EditText
                     android:id="@+id/post_No_vacantes"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/cuadro_editext"
@@ -74,6 +74,50 @@
                 android:hint="Pais"
                 android:padding="8dp"
                 android:textColor="@color/black" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/post_DiaPublicacion"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/cuadro_editext"
+                    android:drawableLeft="@drawable/ic_historial"
+                    android:drawablePadding="8dp"
+                    android:hint="22/07/2023"
+                    android:inputType="date"
+                    android:padding="8dp"
+                    android:textColor="@color/black"
+                    android:tint="@color/lavanda" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/post_DiaLimite"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/cuadro_editext"
+                    android:drawableLeft="@drawable/ic_historial"
+                    android:drawablePadding="8dp"
+                    android:hint="22/07/2023"
+                    android:inputType="date"
+                    android:padding="8dp"
+                    android:textColor="@color/black"
+                    android:tint="@color/lavanda" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -110,7 +154,6 @@
                     android:textColor="@color/black"
                     android:tint="@color/lavanda"
                     tools:ignore="DuplicateIds" />
-
             </LinearLayout>
 
             <EditText
@@ -123,7 +166,7 @@
                 android:drawablePadding="8dp"
                 android:hint="Salario"
                 android:padding="8dp"
-                android:text="Salario competitivo"
+                android:inputType="numberDecimal"
                 android:textColor="@color/black" />
 
             <EditText

@@ -42,9 +42,7 @@ function createUser(user, callback) {
       callback(error, null);
       return;
     }
-
     const query = 'INSERT INTO user (nameUser, email, password, phone, dateRegister, id_category, routesPhoto) VALUES (?, ?, ?, ?, ?, ?, "uploads/defaultImage.png")';
-
     const values = [user.nameUser, user.email, hashedPassword, user.phone, user.dateRegister, user.id_category];
 
     db.query(query, values, (error, result) => {
@@ -57,6 +55,27 @@ function createUser(user, callback) {
   });
 }
 
+function createOffer(jobOffer, callback) {
+  const query = `INSERT INTO joboffer (
+      jobTitle,
+      description, 
+      requirements, 
+      publicationDate, 
+      dueDate, 
+      salary, 
+      timeDeparture, 
+      timeEntry
+      ) VALUES (?,?,?,?,?,?,?,?)`;
+  const values = [jobOffer.jobTitle, jobOffer.description, jobOffer.requirements, jobOffer.publicationDate, jobOffer.dueDate, jobOffer.salary, jobOffer.timeDeparture, jobOffer.timeEntry]
+
+  db.query(query, values, (error, result) => {
+    if (error) {
+      callback(error, null);
+    } else {
+      callback(null, result.insertId);
+    }
+  })
+}
 
 function checkUserExistence(email, callback) {
   const query = 'SELECT * FROM user WHERE email = ?';
@@ -94,6 +113,7 @@ module.exports = {
   getUserById,
   login,
   createUser,
+  createOffer,
   checkUserExistence,
   saveImage,
 };

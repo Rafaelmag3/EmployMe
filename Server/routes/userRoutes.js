@@ -3,6 +3,7 @@ const { createTransporter } = require('../config/transporter');
 const generateVerificationCode = require('../CodeGenerator/generateVerificationCode');
 const bodyParser = require('body-parser');
 const userController = require('../controller/userController');
+const jobOffer = require('../controller/jobOfferController')
 const router = express.Router();
 
 router.get('/user/:id_user', userController.getUserById);
@@ -12,6 +13,9 @@ router.post('/login', userController.login);
 router.post('/userCreate', userController.createUser);
 
 router.post('/checkUserExistence', userController.checkUserExistence);
+
+
+router.post('/offertJob', jobOffer.createJobOffer)
 
 // Ruta para enviar el correo de verificación
 router.use(bodyParser.json());

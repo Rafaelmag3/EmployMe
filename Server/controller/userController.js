@@ -4,7 +4,7 @@ const multer = require('multer');
 
 function getUserById(req, res) {
     const { id_user } = req.params;
-    
+
     userService.getUserById(id_user, (error, results) => {
         if (error) {
             console.error('Error al obtener el usuario: ', error);
@@ -53,7 +53,6 @@ function createUser(req, res) {
     });
 }
 
-
 function checkUserExistence(req, res) {
     const { email } = req.body;
 
@@ -71,28 +70,28 @@ function checkUserExistence(req, res) {
 
 function uploadImage(req, res, destinationPath) {
     const upload = userService.saveImage(destinationPath);
-  
+
     upload(req, res, function (err) {
-      if (err) {
-        res.status(500).send('Error al guardar la imagen');
-        console.log('Error al guardar la imagen');
-      } else {
-        if (req.file) {
-          res.status(200).send('Imagen guardada correctamente');
-          console.log('Imagen guardada correctamente');
+        if (err) {
+            res.status(500).send('Error al guardar la imagen');
+            console.log('Error al guardar la imagen');
         } else {
-          res.status(400).send('No se envió ninguna imagen');
-          console.log('No se envió ninguna imagen');
+            if (req.file) {
+                res.status(200).send('Imagen guardada correctamente');
+                console.log('Imagen guardada correctamente');
+            } else {
+                res.status(400).send('No se envió ninguna imagen');
+                console.log('No se envió ninguna imagen');
+            }
         }
-      }
     });
-  }
-  
+}
+
 
 module.exports = {
     getUserById,
     login,
     createUser,
     checkUserExistence,
-    uploadImage
+    uploadImage,
 };

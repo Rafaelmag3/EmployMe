@@ -42,8 +42,6 @@ public class EditProfile extends AppCompatActivity {
         UserSession userSession = UserSession.getInstance();
         int userId = userSession.getUserId();
 
-        System.out.println("Id en información"+userId);
-
         nombreET = findViewById(R.id.nombreET);
         correoET = findViewById(R.id.correoET);
         catgoriaET = findViewById(R.id.catgoriaET);
@@ -140,7 +138,6 @@ public class EditProfile extends AppCompatActivity {
                 }
             }
         });
-
         getUserData(userId);
     }
 

@@ -97,7 +97,6 @@ public class LoginActivity extends AppCompatActivity {
         forgetPassword.setText(Html.fromHtml(text));
 
         buttonPassword.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 if (passwordVisible) {
