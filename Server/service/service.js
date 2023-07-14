@@ -65,9 +65,12 @@ function createOffer(jobOffer, callback) {
       dueDate, 
       salary, 
       timeDeparture, 
-      timeEntry
-      ) VALUES (?,?,?,?,?,?,?,?)`;
-  const values = [jobOffer.jobTitle, jobOffer.description, jobOffer.requirements, jobOffer.publicationDate, jobOffer.dueDate, jobOffer.salary, jobOffer.timeDeparture, jobOffer.timeEntry]
+      timeEntry,
+      vacancy,
+      country,
+      id_user
+      ) VALUES (?,?,?,?,?,?,?,?,?,?,?)`;
+  const values = [jobOffer.jobTitle, jobOffer.description, jobOffer.requirements, jobOffer.publicationDate, jobOffer.dueDate, jobOffer.salary, jobOffer.timeDeparture, jobOffer.timeEntry, jobOffer.vacancy, jobOffer.country, jobOffer.id_user]
 
   db.query(query, values, (error, result) => {
     if (error) {

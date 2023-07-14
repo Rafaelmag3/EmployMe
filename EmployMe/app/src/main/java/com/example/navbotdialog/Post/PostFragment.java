@@ -30,6 +30,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.navbotdialog.APIUtils;
 import com.example.navbotdialog.R;
+import com.example.navbotdialog.UserSession;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,6 +53,10 @@ public class PostFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_post, container, false);
+
+        //Obtener el id de usuario
+        UserSession userSession = UserSession.getInstance();
+        int userId = userSession.getUserId();
 
         puesto = rootView.findViewById(R.id.post_puesto_trabajo);
         no_vacantes = rootView.findViewById(R.id.post_No_vacantes);
@@ -109,6 +114,8 @@ public class PostFragment extends Fragment {
                 String salary = salario.getText().toString();
                 String timeDeparture = horario_e.getText().toString();
                 String timeEntry = horario_s.getText().toString();
+                String vacancy = no_vacantes.getText().toString();
+                String country = locacion.getText().toString();
 
 
                 if (jobTitle.isEmpty()){
@@ -131,13 +138,20 @@ public class PostFragment extends Fragment {
                     post_DiaLimite.setError("Campo obligatorio");
                     isFormValid = false;
                 }
-
                 if(salary.isEmpty()){
                     salario.setError("Campo obligatorio");
                     isFormValid = false;
                 }
+                if(vacancy.isEmpty()){
+                    no_vacantes.setError("Campo obligatorio");
+                    isFormValid = false;
+                }
+                if(country.isEmpty()){
+                    locacion.setError("Campo obligatorio");
+                    isFormValid = false;
+                }
                 if (isFormValid){
-                    createOffer(jobTitle, description, requirements, publicationDate, dueDate, salary, timeDeparture, timeEntry);
+                    createOffer(jobTitle, description, requirements, publicationDate, dueDate, salary, timeDeparture, timeEntry, vacancy, country, userId);
                     Toast.makeText(getActivity(), "Datos alamacenados", Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(getActivity(), "Complete los campos", Toast.LENGTH_SHORT).show();
@@ -236,7 +250,7 @@ public class PostFragment extends Fragment {
     }
 
     //PETICIÓN POST
-    public void createOffer(String jobTitle, String description, String requirements, String publicationDate, String dueDate, String salary, String timeDeparture, String timeEntry) {
+    public void createOffer(String jobTitle, String description, String requirements, String publicationDate, String dueDate, String salary, String timeDeparture, String timeEntry, String vacancy, String country, int userId) {
         String url = APIUtils.getFullUrl("offertJob");
 
         JSONObject jsonBody = new JSONObject();
@@ -249,6 +263,9 @@ public class PostFragment extends Fragment {
             jsonBody.put("salary", salary);
             jsonBody.put("timeDeparture", timeDeparture);
             jsonBody.put("timeEntry", timeEntry);
+            jsonBody.put("vacancy", vacancy);
+            jsonBody.put("country", country);
+            jsonBody.put("id_user", userId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
