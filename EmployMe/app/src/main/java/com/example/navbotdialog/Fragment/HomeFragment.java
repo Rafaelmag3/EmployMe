@@ -11,9 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -36,6 +36,7 @@ public class HomeFragment extends Fragment {
     private List<String> listaPublicaciones;
     private RecyclerView.Adapter<RecyclerView.ViewHolder> adapter;
 
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -52,10 +53,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
@@ -78,8 +76,23 @@ public class HomeFragment extends Fragment {
             @Override
             public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
                 String data = listaPublicaciones.get(position);
+                String[] splitData = data.split(";"); // Dividir el dato en título y vacante
                 TextView textView = holder.itemView.findViewById(R.id.title);
-                textView.setText(data);
+                TextView vacancy = holder.itemView.findViewById(R.id.vacancy);
+                TextView country = holder.itemView.findViewById(R.id.country);
+                TextView timeEntry = holder.itemView.findViewById(R.id.timeEntry);
+                TextView salary = holder.itemView.findViewById(R.id.salary);
+                TextView requirements = holder.itemView.findViewById(R.id.requirements);
+                TextView description = holder.itemView.findViewById(R.id.description);
+                TextView publicationDate = holder.itemView.findViewById(R.id.publicationDate);
+                textView.setText(splitData[0]);
+                vacancy.setText(splitData[1]);
+                country.setText(splitData[2]);
+                timeEntry.setText(splitData[3]);
+                salary.setText(splitData[4]);
+                requirements.setText(splitData[5]);
+                description.setText(splitData[6]);
+                publicationDate.setText(splitData[7]);
             }
 
             @Override
@@ -112,8 +125,16 @@ public class HomeFragment extends Fragment {
                             try {
                                 JSONObject jsonObject = response.getJSONObject(i);
                                 String titulo = jsonObject.getString("jobTitle");
-                                System.out.println("LLego algo??? " +titulo);
-                                tempList.add(titulo);
+                                String vacancy = jsonObject.getString("vacancy");
+                                String country = jsonObject.getString("country");
+                                String timeEntry = jsonObject.getString("timeEntry");
+                                String salary = jsonObject.getString("salary");
+                                String requirements = jsonObject.getString("requirements");
+                                String description = jsonObject.getString("description");
+                                String publicationDate = jsonObject.getString("publicationDate");
+                                String data = titulo + ";" + vacancy + ";" + country + ";" + timeEntry + ";" + salary + ";" + requirements + ";" + description + ";" + publicationDate;
+                                System.out.println("¿Llegó algo? " + data);
+                                tempList.add(data);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -129,11 +150,6 @@ public class HomeFragment extends Fragment {
                                 listaPublicaciones.addAll(tempList);
                                 // Notificar al adaptador del cambio en los datos
                                 adapter.notifyDataSetChanged();
-
-                                // Imprimir los datos en la consola
-                                for (String titulo : listaPublicaciones) {
-                                    Log.d("Datos", titulo);
-                                }
                             }
                         });
                     }
@@ -148,4 +164,5 @@ public class HomeFragment extends Fragment {
 
         requestQueue.add(jsonArrayRequest);
     }
+
 }
