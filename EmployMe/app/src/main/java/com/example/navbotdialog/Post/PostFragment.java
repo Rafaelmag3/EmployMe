@@ -3,10 +3,12 @@ package com.example.navbotdialog.Post;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.KeyEvent;
@@ -29,6 +31,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.navbotdialog.APIUtils;
+import com.example.navbotdialog.MainActivity;
 import com.example.navbotdialog.R;
 import com.example.navbotdialog.UserSession;
 
@@ -154,7 +157,11 @@ public class PostFragment extends Fragment {
                 }
                 if (isFormValid){
                     createOffer(jobTitle, description, requirements, publicationDate, dueDate, salary, timeDeparture, timeEntry, vacancy, country, userId);
-                    Toast.makeText(getActivity(), "Datos alamacenados", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Publicación exitosa", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                    startActivity(intent);
+
                 }else {
                     Toast.makeText(getActivity(), "Complete los campos", Toast.LENGTH_SHORT).show();
                 }

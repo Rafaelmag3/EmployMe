@@ -3,29 +3,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="55dp"
     tools:context=".Post.Mis_Post_Fragment">
-
-    <TextView
-        android:id="@+id/MP_Titulo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Mis publicaciones"
-        android:textAlignment="center"
-        android:textColor="@color/azul"
-        android:padding="10dp"
-        android:textSize="30sp"
-        android:textStyle="bold" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
         >
 
-        <androidx.recyclerview.widget.RecyclerView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"/>
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/MP_Titulo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mis publicaciones"
+                android:textAlignment="center"
+                android:textColor="@color/azul"
+                android:padding="10dp"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycleViewPublicaciones"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+        </LinearLayout>
+
+
+
 
     </ScrollView>
 

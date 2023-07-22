@@ -45,7 +45,7 @@
                     android:background="@drawable/cuadro_editext"
                     android:drawableLeft="@drawable/ico_perfil"
                     android:drawablePadding="8dp"
-                    android:hint="Puesto de trabajo"
+                    android:hint="Puesto"
                     android:padding="8dp"
                     android:textColor="@color/black" />
 
@@ -79,13 +79,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="vertical">
+
+               <TextView
+                   android:layout_width="match_parent"
+                   android:layout_height="20dp"
+                   android:layout_marginTop="20dp"
+                   android:text="Fecha de entrevista"/>
 
                 <EditText
                     android:id="@+id/post_DiaPublicacion"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_marginTop="20dp"
                     android:background="@drawable/cuadro_editext"
                     android:drawableLeft="@drawable/ic_historial"
                     android:drawablePadding="8dp"
@@ -101,13 +106,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Fecha de final de publicación"/>
 
                 <EditText
                     android:id="@+id/post_DiaLimite"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_marginTop="20dp"
                     android:background="@drawable/cuadro_editext"
                     android:drawableLeft="@drawable/ic_historial"
                     android:drawablePadding="8dp"
@@ -118,6 +128,12 @@
                     android:tint="@color/lavanda" />
 
             </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginTop="20dp"
+                android:text="Horario laboral"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -129,7 +145,7 @@
                     android:id="@+id/post_Horario"
                     android:layout_width="150dp"
                     android:layout_height="50dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="10dp"
                     android:background="@drawable/cuadro_editext"
                     android:drawableLeft="@drawable/ic_historial"
                     android:drawablePadding="8dp"
@@ -143,8 +159,6 @@
                     android:id="@+id/post_Horario2"
                     android:layout_width="150dp"
                     android:layout_height="50dp"
-                    android:layout_margin="20dp"
-                    android:layout_marginTop="20dp"
                     android:background="@drawable/cuadro_editext"
                     android:drawableLeft="@drawable/ic_historial"
                     android:drawablePadding="8dp"
@@ -201,6 +215,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
+                android:layout_marginBottom="20dp"
                 android:backgroundTint="@color/azul"
                 android:text="Publicar"
                 android:textAllCaps="true"

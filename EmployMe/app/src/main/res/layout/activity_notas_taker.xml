@@ -12,19 +12,19 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_notes"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="?attr/actionBarSize">
 
         <RelativeLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <ImageView
                 android:id="@+id/imagen_salvar"
                 android:layout_alignParentEnd="true"
-                android:src="@drawable/ic_salvar"
+                android:src="@drawable/save"
                 android:padding="8dp"
                 android:background="@android:color/transparent"
-                android:layout_width="?attr/actionBarSize"
+                android:layout_width="50dp"
                 android:layout_height="?attr/actionBarSize"
                 />
         </RelativeLayout>
@@ -53,5 +53,4 @@
         android:textColor="@color/black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
 </LinearLayout>

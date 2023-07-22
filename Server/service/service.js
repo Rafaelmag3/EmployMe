@@ -1,6 +1,7 @@
 const db = require('../config/connection');
 const multer = require('multer');
 const bcrypt = require('bcrypt');
+const { query } = require('express');
 
 function getUserById(id, callback) {
   console.log(id);
@@ -84,7 +85,6 @@ function createOffer(jobOffer, callback) {
 //Mostrar todas las ofertas
 function getAllOffers(callback) {
   const query = 'SELECT joboffer.*, user.nameUser, user.email FROM joboffer INNER JOIN user ON joboffer.id_user = user.idUser';
-
   db.query(query, (error, result) => {
     if (error) {
       callback(error, null);
@@ -94,18 +94,28 @@ function getAllOffers(callback) {
   });
 }
 
+//Mostar ofertas personales
+function getOfferById(offerId, callback) {
+  const query = "SELECT joboffer.*, user.nameUser FROM joboffer INNER JOIN user ON joboffer.id_user = user.idUser WHERE user.idUser = ?";
+
+  db.query(query, [offerId], callback)
+}
+
 //Eliminar oferta
 function deleteOffer(offerId, callback) {
-  const query = 'DELETE FROM joboffer WHERE id = ?';
+  const query = 'DELETE FROM joboffer WHERE id_jobOffer = ?';
 
   db.query(query, offerId, (error, result) => {
     if (error) {
+      console.log('Error al ejecutar la consulta SQL:', error);
       callback(error, null);
     } else {
       callback(null, result);
+
     }
   });
 }
+
 
 //Modificar oferta
 function updateOffer(offerId, updatedOffer, callback) {
@@ -181,6 +191,7 @@ module.exports = {
   createUser,
   createOffer,
   getAllOffers,
+  getOfferById,
   deleteOffer,
   updateOffer,
   checkUserExistence,
