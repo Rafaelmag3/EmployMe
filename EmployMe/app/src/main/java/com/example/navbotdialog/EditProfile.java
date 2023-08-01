@@ -1,17 +1,26 @@
 package com.example.navbotdialog;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.biometric.BiometricManager;
+import androidx.biometric.BiometricPrompt;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -25,14 +34,25 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.concurrent.Executor;
 
 public class EditProfile extends AppCompatActivity {
     EditText nombreET, correoET, catgoriaET, passwordET, confirmPasswordET;
+
+    TextView txt_msg;
     Button savePerfil;
+
+    Switch enableSwich;
     ImageView passwordIcon, passwordIcon2;
-    public boolean isAttemptSucceded = true;
+
+    private Executor executor;
+
+    private BiometricPrompt biometricPrompt;
+
+    private BiometricPrompt.PromptInfo promptInfo;
     boolean passwordVisible = false;
     boolean passwordVisible2 = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +71,76 @@ public class EditProfile extends AppCompatActivity {
         passwordET = findViewById(R.id.passwordET);
         confirmPasswordET = findViewById(R.id.confirmPasswordET);
 
+        enableSwich = findViewById(R.id.enableSwitch);
+
+        txt_msg = findViewById(R.id.txt_msg);
+
+        BiometricManager biometricManager = BiometricManager.from(this);
+        switch (biometricManager.canAuthenticate()){
+            case BiometricManager.BIOMETRIC_SUCCESS:
+                txt_msg.setText("Tu puedes usar el sensor de huella");
+                txt_msg.setTextColor(Color.parseColor("#368690"));
+                break;
+            case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
+                txt_msg.setText("No puedes usar el sensor de huella");
+                txt_msg.setTextColor(Color.parseColor("#EC4949"));
+                break;
+            case BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE:
+                txt_msg.setText("Tu sensor de huella esta deshabilitado");
+                txt_msg.setTextColor(Color.parseColor("#EC4949"));
+                break;
+            case  BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
+                txt_msg.setText("Tu dispositivo no tiene sensor de huella");
+                txt_msg.setTextColor(Color.parseColor("#EC4949"));
+                break;
+        }
+
+        enableSwich.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                passwordET.setEnabled(isChecked);
+                showPassword();
+                confirmPasswordET.setEnabled(isChecked);
+                checkFingerPrint();
+            }
+        });
+
+        savePerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isFormValid = true;
+
+                String userName = nombreET.getText().toString();
+                String userEmail= correoET.getText().toString();
+                String userCategoria = catgoriaET.getText().toString();
+                String passwordUser = passwordET.getText().toString();
+                String confirmPasswordUserET = confirmPasswordET.getText().toString();
+
+                if (userName.isEmpty()){
+                    nombreET.setError("Campo obligatorio");
+                }
+                if (userEmail.isEmpty()){
+                    correoET.setError("Campo obligatorio");
+                }
+                if (userCategoria.isEmpty()){
+                    catgoriaET.setError("Campo obligatorio");
+                }
+
+                if(passwordUser.equals(confirmPasswordUserET)){
+                    Toast.makeText(EditProfile.this, "Datos de perfil actualizados", Toast.LENGTH_SHORT).show();
+                    SaveProfile(userId, userName, userEmail, passwordUser);
+                }else {
+                    confirmPasswordET.setError("La contraseña no coincide");
+                }
+
+
+            }
+        });
+        getUserData(userId);
+    }
+
+    private  void showPassword(){
         passwordIcon = findViewById(R.id.passwordIcon);
-
-        passwordIcon2 = findViewById(R.id.passwordIcon2);
-
         passwordIcon.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -75,6 +161,7 @@ public class EditProfile extends AppCompatActivity {
             }
         });
 
+        passwordIcon2 = findViewById(R.id.passwordIcon2);
         passwordIcon2.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -94,53 +181,58 @@ public class EditProfile extends AppCompatActivity {
                 confirmPasswordET.setSelection(confirmPasswordET.getText().length());
             }
         });
-
-
-        savePerfil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean isFormValid = true;
-
-                String userName = nombreET.getText().toString();
-                String userEmail= correoET.getText().toString();
-                String userCategoria = catgoriaET.getText().toString();
-                String passwordUser = passwordET.getText().toString();
-                String confirmPasswordUserET = confirmPasswordET.getText().toString();
-
-                if (userName.isEmpty()) {
-                    nombreET.setError("Campo obligatorio");
-                    isFormValid = false;
-                    isAttemptSucceded=false;
-                }
-                if (userEmail.isEmpty()) {
-                    correoET.setError("Campo obligatorio");
-                    isFormValid = false;
-                    isAttemptSucceded=false;
-                }
-                if (userCategoria.isEmpty()) {
-                    catgoriaET.setError("Campo obligatorio");
-                    isFormValid = false;
-                    isAttemptSucceded=false;
-                }
-                if (isFormValid) {
-                    SaveProfile(userId, userName, userEmail, passwordUser);
-                } else {
-                    Toast.makeText(getApplicationContext(), "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show();
-                }
-                if(isAttemptSucceded){
-                    Intent intent = new Intent(EditProfile.this, MainActivity.class);
-                    startActivity(intent);
-                    Toast.makeText(getApplicationContext(), "Registro exitoso", Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(getApplicationContext(), "Registro exitoso", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(EditProfile.this, MainActivity.class);
-                    startActivity(intent);
-                }
-            }
-        });
-        getUserData(userId);
     }
 
+    private void checkFingerPrint(){
+
+        //Show the result of the authenticartion and if the user can Login
+        executor = ContextCompat.getMainExecutor(this);
+        biometricPrompt = new BiometricPrompt(EditProfile.this,
+                executor, new BiometricPrompt.AuthenticationCallback() {
+            @Override
+            public void onAuthenticationError(int errorCode,
+                                              @NonNull CharSequence errString) {
+                super.onAuthenticationError(errorCode, errString);
+                Toast.makeText(getApplicationContext(),
+                                "Operación cancelada: " + errString, Toast.LENGTH_SHORT)
+                        .show();
+            }
+
+            @Override
+            public void onAuthenticationSucceeded(
+                    @NonNull BiometricPrompt.AuthenticationResult result) {
+                super.onAuthenticationSucceeded(result);
+                Toast.makeText(getApplicationContext(),
+                        "Autentificación Correcta!", Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onAuthenticationFailed() {
+                super.onAuthenticationFailed();
+                Toast.makeText(getApplicationContext(), "Autentificación Fallida",
+                                Toast.LENGTH_SHORT)
+                        .show();
+            }
+        });
+
+
+
+        promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                .setTitle("Verificación Biometrica")
+                .setSubtitle("Verifica que eres tu")
+                .setNegativeButtonText("Cancelar")
+                .build();
+
+
+        // Prompt appears when user clicks "Log in".
+        // Consider integrating with the keystore to unlock cryptographic operations,
+        // if needed by your app.
+        enableSwich.setOnClickListener(view -> {
+            biometricPrompt.authenticate(promptInfo);
+        });
+
+    }
     private void getUserData(int userId) {
 
         System.out.println("Id requerida: "+userId);

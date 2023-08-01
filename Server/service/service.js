@@ -188,7 +188,6 @@ function checkUserExistence(email, callback) {
   });
 }
 
-
 // Configurar Multer para guardar las imágenes en una carpeta específica
 function saveImage(destinationPath) {
   const storage = multer.diskStorage({

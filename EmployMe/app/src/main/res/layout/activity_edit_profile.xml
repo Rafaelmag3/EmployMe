@@ -36,11 +36,10 @@
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
                 android:padding="15dp"
                 android:text="Información Personal:"
                 android:textColor="@color/azul"
-                android:textSize="20dp"
+                android:textSize="30dp"
                 android:textStyle="bold" />
 
             <EditText
@@ -66,7 +65,7 @@
                 android:background="@drawable/cuadro_editext"
                 android:drawableLeft="@drawable/ico_perfil"
                 android:drawablePadding="8dp"
-                android:hint="Catgoria"
+                android:hint="Cargo o Profeción"
                 android:inputType="text"
                 android:padding="8dp"
                 android:textColor="@color/black" />
@@ -85,36 +84,58 @@
                 android:padding="8dp"
                 android:textColor="@color/black" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/cuadro_editext">
+                android:orientation="vertical"
+                android:paddingTop="20dp">
 
-                <EditText
-                    android:id="@+id/passwordET"
-                    android:layout_toStartOf="@+id/passwordIcon"
+                <Switch
+                    android:id="@+id/enableSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cambiar contraseña" />
+                <TextView
+                    android:id="@+id/txt_msg"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:drawableLeft="@drawable/ico_lock"
-                    android:background="@drawable/cuadro_editext"
-                    android:hint="Contraseña"
-                    android:paddingStart="10dp"
-                    android:inputType="textPassword" />
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:text="" />
 
-                <ImageView
-                    android:id="@+id/passwordIcon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:padding="5dp"
-                    android:src="@drawable/ico_visibility_off"
-                    android:adjustViewBounds="true"
-                    android:layout_marginTop="20dp"
-                    />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/cuadro_editext">
 
-            </RelativeLayout>
+                    <EditText
+                        android:id="@+id/passwordET"
+                        android:layout_toStartOf="@+id/passwordIcon"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:drawableLeft="@drawable/ico_lock"
+                        android:background="@drawable/cuadro_editext"
+                        android:hint="Contraseña"
+                        android:paddingStart="10dp"
+                        android:enabled="false"
+                        android:inputType="textPassword" />
+
+                    <ImageView
+                        android:id="@+id/passwordIcon"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:padding="5dp"
+                        android:src="@drawable/ico_visibility_off"
+                        android:adjustViewBounds="true"
+                        android:layout_marginTop="20dp"
+                        />
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -130,6 +151,7 @@
                     android:drawableLeft="@drawable/ico_lock"
                     android:background="@drawable/cuadro_editext"
                     android:hint="Confirmar Contraseña"
+                    android:enabled="false"
                     android:paddingStart="10dp"
                     android:inputType="textPassword" />
 
@@ -156,6 +178,8 @@
 
                 android:textSize="15sp"
                 />
+
+
         </LinearLayout>
 
     </ScrollView>
