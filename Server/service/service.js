@@ -3,12 +3,6 @@ const multer = require('multer');
 const bcrypt = require('bcrypt');
 const { query } = require('express');
 
-function getUserById(id, callback) {
-  console.log(id);
-  const query = 'SELECT user.idUser, user.nameUser, user.email, user.phone, user.dateRegister, category.categoria, GROUP_CONCAT(skill.nameSkill) AS skills, user.routesPhoto FROM user LEFT JOIN category ON user.id_category = category.id_category LEFT JOIN skill ON user.idUser = skill.id_user  WHERE user.idUser = ? GROUP BY user.idUser;';
-  db.query(query, [id], callback);
-}
-
 function login(email, password, callback) {
   const query = 'SELECT idUser, password FROM user WHERE email = ?';
   db.query(query, [email], (error, results) => {
@@ -34,6 +28,12 @@ function login(email, password, callback) {
       });
     }
   });
+}
+
+function getUserById(id, callback) {
+  console.log(id);
+  const query = 'SELECT user.idUser, user.nameUser, user.email, user.phone, user.dateRegister, category.categoria, GROUP_CONCAT(skill.nameSkill) AS skills, user.routesPhoto FROM user LEFT JOIN category ON user.id_category = category.id_category LEFT JOIN skill ON user.idUser = skill.id_user  WHERE user.idUser = ? GROUP BY user.idUser;';
+  db.query(query, [id], callback);
 }
 
 function createUser(user, callback) {
@@ -64,7 +64,7 @@ function ModifyUser(user, callback) {
       return;
     }
 
-    const query = 'UPDATE user SET nameUser = ?, password=? WHERE idUser = ?;';
+    const query = 'UPDATE user SET nameUser = ?, password = ? WHERE idUser = ?;';
     const values = [user.nameUser, hashedPassword, user.idUser];
 
     db.query(query, values, (error, result) => {

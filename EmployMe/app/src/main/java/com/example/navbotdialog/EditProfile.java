@@ -98,6 +98,7 @@ public class EditProfile extends AppCompatActivity {
         enableSwich.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+
                 passwordET.setEnabled(isChecked);
                 showPassword();
                 confirmPasswordET.setEnabled(isChecked);
@@ -108,7 +109,6 @@ public class EditProfile extends AppCompatActivity {
         savePerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean isFormValid = true;
 
                 String userName = nombreET.getText().toString();
                 String userEmail= correoET.getText().toString();
@@ -127,7 +127,7 @@ public class EditProfile extends AppCompatActivity {
                 }
 
                 if(passwordUser.equals(confirmPasswordUserET)){
-                    Toast.makeText(EditProfile.this, "Datos de perfil actualizados", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditProfile.this, "Información actualizada", Toast.LENGTH_SHORT).show();
                     SaveProfile(userId, userName, userEmail, passwordUser);
                 }else {
                     confirmPasswordET.setError("La contraseña no coincide");
@@ -196,12 +196,16 @@ public class EditProfile extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),
                                 "Operación cancelada: " + errString, Toast.LENGTH_SHORT)
                         .show();
+
+                passwordET.setEnabled(false);
+                confirmPasswordET.setEnabled(false);
             }
 
             @Override
             public void onAuthenticationSucceeded(
                     @NonNull BiometricPrompt.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
+
                 Toast.makeText(getApplicationContext(),
                         "Autentificación Correcta!", Toast.LENGTH_SHORT).show();
 
