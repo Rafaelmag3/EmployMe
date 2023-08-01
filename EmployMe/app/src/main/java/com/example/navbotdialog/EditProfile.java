@@ -203,6 +203,8 @@ public class EditProfile extends AppCompatActivity {
         params.put("email", userEmail);
         params.put("idUser", String.valueOf(userId));
 
+        System.out.println("Datos recibidos: "+params);
+
         // Solicitud POST
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, new JSONObject(params),

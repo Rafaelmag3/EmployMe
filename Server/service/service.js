@@ -182,9 +182,6 @@ function saveImage(destinationPath) {
   return multer({ storage: storage }).single('file');
 }
 
-
-
-
 module.exports = {
   getUserById,
   login,
