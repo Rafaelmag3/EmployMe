@@ -12,6 +12,8 @@ router.post('/login', userController.login);
 
 router.post('/userCreate', userController.createUser);
 
+router.put('/userModify/:id_user', userController.ModifyUser);
+
 router.post('/checkUserExistence', userController.checkUserExistence);
 
 //Oferta de trabajo

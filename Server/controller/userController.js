@@ -53,6 +53,19 @@ function createUser(req, res) {
     });
 }
 
+function ModifyUser(req, res) {
+    const user = req.body;
+    console.log(user);
+    userService.ModifyUser(user, (error, results) => {
+        if (error) {
+            console.error('Error al modifcar el usuario', error);
+            res.status(500).send('Error al modificar el usuario');
+        } else {
+            res.send('Usuario creado correctamente');
+        }
+    });
+}
+
 function checkUserExistence(req, res) {
     const { email } = req.body;
 
@@ -92,6 +105,7 @@ module.exports = {
     getUserById,
     login,
     createUser,
+    ModifyUser,
     checkUserExistence,
     uploadImage,
 };

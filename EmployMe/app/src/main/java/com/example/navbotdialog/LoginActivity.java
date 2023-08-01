@@ -63,6 +63,7 @@ public class LoginActivity extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
     ProgressDialog progressDialog;
 
+    private int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,8 +89,8 @@ public class LoginActivity extends AppCompatActivity {
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
-                    .requestEmail()
-                        .build();
+                .requestEmail()
+                .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this,gso);
 
         //TextView singUpRedirectedText = findViewById(R.id.forgetPassword);
@@ -97,6 +98,7 @@ public class LoginActivity extends AppCompatActivity {
         forgetPassword.setText(Html.fromHtml(text));
 
         buttonPassword.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 if (passwordVisible) {
@@ -209,7 +211,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                 Log.d("LoginActivity", "Response: " + response.toString());
 
-                                //Resibir Id de usuario con la respuesta del servidor
+                                //Resibir Id de usuario con la respuesta del swervidor
                                 int userId = userObject.optInt("idUser", 0);
 
                                 UserSession userSession = UserSession.getInstance();

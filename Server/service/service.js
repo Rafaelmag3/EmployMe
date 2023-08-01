@@ -56,6 +56,28 @@ function createUser(user, callback) {
   });
 }
 
+function ModifyUser(user, callback) {
+  // Generar un hash de la contraseña
+  bcrypt.hash(user.password, 10, (error, hashedPassword) => {
+    if (error) {
+      callback(error, null);
+      return;
+    }
+
+    const query = 'UPDATE user SET nameUser = ?, password=? WHERE idUser = ?;';
+    const values = [user.nameUser, hashedPassword, user.idUser];
+
+    db.query(query, values, (error, result) => {
+      if (error) {
+        callback(error, null);
+      } else {
+        callback(null, result.insertId);
+      }
+    });
+  });
+}
+
+
 //Crear Oferta de trabajo
 function createOffer(jobOffer, callback) {
   const query = `INSERT INTO joboffer (
@@ -186,6 +208,7 @@ module.exports = {
   getUserById,
   login,
   createUser,
+  ModifyUser,
   createOffer,
   getAllOffers,
   getOfferById,
