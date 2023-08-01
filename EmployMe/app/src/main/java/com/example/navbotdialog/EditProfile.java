@@ -37,7 +37,7 @@ import java.util.HashMap;
 import java.util.concurrent.Executor;
 
 public class EditProfile extends AppCompatActivity {
-    EditText nombreET, correoET, catgoriaET, passwordET, confirmPasswordET;
+    EditText nombreET, catgoriaET, passwordET, confirmPasswordET, phoneET;
 
     TextView txt_msg;
     Button savePerfil;
@@ -53,6 +53,8 @@ public class EditProfile extends AppCompatActivity {
     boolean passwordVisible = false;
     boolean passwordVisible2 = false;
 
+    boolean isBiometricEnabled = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +65,8 @@ public class EditProfile extends AppCompatActivity {
         int userId = userSession.getUserId();
 
         nombreET = findViewById(R.id.nombreET);
-        correoET = findViewById(R.id.correoET);
         catgoriaET = findViewById(R.id.catgoriaET);
+        phoneET = findViewById(R.id.telefonoET);
 
         savePerfil = findViewById(R.id.savePerfil);
 
@@ -78,7 +80,7 @@ public class EditProfile extends AppCompatActivity {
         BiometricManager biometricManager = BiometricManager.from(this);
         switch (biometricManager.canAuthenticate()){
             case BiometricManager.BIOMETRIC_SUCCESS:
-                txt_msg.setText("Tu puedes usar el sensor de huella");
+                txt_msg.setText("Puedes usar el sensor de huella");
                 txt_msg.setTextColor(Color.parseColor("#368690"));
                 break;
             case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
@@ -98,11 +100,18 @@ public class EditProfile extends AppCompatActivity {
         enableSwich.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-
+                isBiometricEnabled = isChecked;
                 passwordET.setEnabled(isChecked);
                 showPassword();
                 confirmPasswordET.setEnabled(isChecked);
                 checkFingerPrint();
+            }
+        });
+
+        enableSwich.setOnClickListener(view -> {
+            // Solo autentica con huella dactilar si el interruptor está habilitado
+            if (isBiometricEnabled) {
+                biometricPrompt.authenticate(promptInfo);
             }
         });
 
@@ -111,24 +120,25 @@ public class EditProfile extends AppCompatActivity {
             public void onClick(View v) {
 
                 String userName = nombreET.getText().toString();
-                String userEmail= correoET.getText().toString();
                 String userCategoria = catgoriaET.getText().toString();
+                String phone = phoneET.getText().toString();
                 String passwordUser = passwordET.getText().toString();
                 String confirmPasswordUserET = confirmPasswordET.getText().toString();
 
                 if (userName.isEmpty()){
                     nombreET.setError("Campo obligatorio");
                 }
-                if (userEmail.isEmpty()){
-                    correoET.setError("Campo obligatorio");
-                }
+
                 if (userCategoria.isEmpty()){
                     catgoriaET.setError("Campo obligatorio");
+                }
+                if (phone.isEmpty()){
+                    phoneET.setError("Campo obligatorio");
                 }
 
                 if(passwordUser.equals(confirmPasswordUserET)){
                     Toast.makeText(EditProfile.this, "Información actualizada", Toast.LENGTH_SHORT).show();
-                    SaveProfile(userId, userName, userEmail, passwordUser);
+                    SaveProfile(userId, userName, passwordUser, phone);
                 }else {
                     confirmPasswordET.setError("La contraseña no coincide");
                 }
@@ -210,7 +220,6 @@ public class EditProfile extends AppCompatActivity {
                         "Autentificación Correcta!", Toast.LENGTH_SHORT).show();
 
             }
-
             @Override
             public void onAuthenticationFailed() {
                 super.onAuthenticationFailed();
@@ -253,9 +262,11 @@ public class EditProfile extends AppCompatActivity {
                         try {
                             // Obtener los datos del usuario del objeto JSON response
                             String userName = response.getString("nameUser");
-                            String userEmail = response.getString("email");
                             String userCategory = response.getString("categoria");
+                            String phone = response.getString("phone");
                             String[] skillsList = response.getString("skills").split(",");
+
+                            System.out.println(skillsList);
 
                             System.out.println("Skills: " + skillsList);
 
@@ -264,8 +275,7 @@ public class EditProfile extends AppCompatActivity {
                             // Mostrar los datos en los TextView
                             nombreET.setText(userName);
                             catgoriaET.setText(userCategory);
-                            correoET.setText(userEmail);
-
+                            phoneET.setText(phone);
 
 
                         } catch (JSONException e) {
@@ -288,16 +298,17 @@ public class EditProfile extends AppCompatActivity {
         Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
 
-    private void SaveProfile(int userId, String userName, String userEmail, String userPassword) {
+    private void SaveProfile(int userId, String userName, String userPassword, String phone) {
 
         String url = APIUtils.getFullUrl("userModify/" + userId);
 
         // Construir el parámetro de la solicitud
         HashMap<String, String> params = new HashMap<>();
+        params.put("idUser", String.valueOf(userId));
         params.put("nameUser", userName);
         params.put("password", userPassword);
-        params.put("email", userEmail);
-        params.put("idUser", String.valueOf(userId));
+        params.put("phone", phone);
+
 
         System.out.println("Datos recibidos: "+params);
 

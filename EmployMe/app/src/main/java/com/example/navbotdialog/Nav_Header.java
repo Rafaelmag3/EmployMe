@@ -32,7 +32,7 @@ public class Nav_Header extends AppCompatActivity {
         int userId = userSession.getUserId();
 
         TVnameNav = findViewById(R.id.nameNav);
-        TVemailNav = findViewById(R.id.correoET);
+        //TVemailNav = findViewById(R.id.correoET);
 
         getUserData(userId);
 

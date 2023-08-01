@@ -42,11 +42,18 @@
                 android:textSize="30dp"
                 android:textStyle="bold" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nombre:"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                android:layout_marginBottom="5dp"
+                />
             <EditText
                 android:id="@+id/nombreET"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/cuadro_editext"
                 android:drawableLeft="@drawable/ico_perfil"
@@ -56,11 +63,18 @@
                 android:padding="8dp"
                 android:textColor="@color/black" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cargo Profecional:"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                android:layout_marginBottom="5dp"
+                />
             <EditText
                 android:id="@+id/catgoriaET"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/cuadro_editext"
                 android:drawableLeft="@drawable/ico_perfil"
@@ -70,17 +84,25 @@
                 android:padding="8dp"
                 android:textColor="@color/black" />
 
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Teléfono:"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                android:layout_marginBottom="5dp"
+                />
             <EditText
-                android:id="@+id/correoET"
+                android:id="@+id/telefonoET"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/cuadro_editext"
                 android:drawableLeft="@drawable/ico_perfil"
                 android:drawablePadding="8dp"
-                android:hint="Correo"
-                android:inputType="textEmailAddress"
+                android:hint="Teléfono"
+                android:inputType="number"
                 android:padding="8dp"
                 android:textColor="@color/black" />
 
@@ -101,6 +123,14 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     android:text="" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Contraseña:"
+                    android:textColor="@color/black"
+                    android:textSize="15dp"
+                    />
 
                 <RelativeLayout
                     android:layout_width="match_parent"

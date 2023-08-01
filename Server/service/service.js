@@ -63,9 +63,8 @@ function ModifyUser(user, callback) {
       callback(error, null);
       return;
     }
-
-    const query = 'UPDATE user SET nameUser = ?, password = ? WHERE idUser = ?;';
-    const values = [user.nameUser, hashedPassword, user.idUser];
+    const query = 'UPDATE user SET nameUser = ?, password = ?, phone = ? WHERE idUser = ?;';
+    const values = [user.nameUser, hashedPassword, user.phone, user.idUser];
 
     db.query(query, values, (error, result) => {
       if (error) {
