@@ -57,14 +57,30 @@ function createUser(user, callback) {
 }
 
 function ModifyUser(user, callback) {
-  // Generar un hash de la contraseña
-  bcrypt.hash(user.password, 10, (error, hashedPassword) => {
-    if (error) {
-      callback(error, null);
-      return;
-    }
-    const query = 'UPDATE user SET nameUser = ?, password = ?, phone = ? WHERE idUser = ?;';
-    const values = [user.nameUser, hashedPassword, user.phone, user.idUser];
+  // Verificar si la contraseña está presente
+  if (user.password) {
+    // Generar un hash de la contraseña
+    bcrypt.hash(user.password, 10, (error, hashedPassword) => {
+      if (error) {
+        callback(error, null);
+        return;
+      }
+      // Actualizar la base de datos con la contraseña hasheada
+      const query = 'UPDATE user SET nameUser = ?, password = ?, phone = ? WHERE idUser = ?;';
+      const values = [user.nameUser, hashedPassword, user.phone, user.idUser];
+
+      db.query(query, values, (error, result) => {
+        if (error) {
+          callback(error, null);
+        } else {
+          callback(null, result.insertId);
+        }
+      });
+    });
+  } else {
+    // Si la contraseña no está presente, omitir la actualización de la contraseña en la base de datos
+    const query = 'UPDATE user SET nameUser = ?, phone = ? WHERE idUser = ?;';
+    const values = [user.nameUser, user.phone, user.idUser];
 
     db.query(query, values, (error, result) => {
       if (error) {
@@ -73,8 +89,9 @@ function ModifyUser(user, callback) {
         callback(null, result.insertId);
       }
     });
-  });
+  }
 }
+
 
 
 //Crear Oferta de trabajo

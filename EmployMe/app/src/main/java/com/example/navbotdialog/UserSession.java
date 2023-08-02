@@ -22,5 +22,7 @@ public class UserSession {
     public int getUserId() {
         return userId;
     }
+
+
 }
 

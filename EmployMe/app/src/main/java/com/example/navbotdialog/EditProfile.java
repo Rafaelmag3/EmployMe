@@ -306,7 +306,9 @@ public class EditProfile extends AppCompatActivity {
         HashMap<String, String> params = new HashMap<>();
         params.put("idUser", String.valueOf(userId));
         params.put("nameUser", userName);
-        params.put("password", userPassword);
+        if(!userPassword.isEmpty()) {
+            params.put("password", userPassword);
+        }
         params.put("phone", phone);
 
 
