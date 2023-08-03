@@ -34,8 +34,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class Mis_Post_Fragment extends Fragment {
 
@@ -52,7 +56,7 @@ public class Mis_Post_Fragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_mispost, container, false);
 
         UserSession userSession = UserSession.getInstance();
         int userId = userSession.getUserId();
@@ -97,10 +101,18 @@ public class Mis_Post_Fragment extends Fragment {
                 salary.setText(splitData[5]);
                 requirements.setText(splitData[6]);
                 description.setText(splitData[7]);
-                publicationDate.setText(splitData[8]);
+
+                String originalDate = splitData[8];
+                String formattedDate = formatDate(originalDate);
+                publicationDate.setText(formattedDate);
+
                 nameUser.setText(splitData[9]);
+                email.setText(splitData[10]);
 
                 String idPuesto = idPuestoTextView.getText().toString();
+
+
+                //
 
                 // Agrega un clic en el elemento de la lista
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -157,8 +169,9 @@ public class Mis_Post_Fragment extends Fragment {
                                 String description = jsonObject.getString("description");
                                 String publicationDate = jsonObject.getString("publicationDate");
                                 String nameUser = jsonObject.getString("nameUser");
+                                String email = jsonObject.getString("email");
 
-                                String data = idPublicacion + ";" + titulo + ";" + vacancy + ";" + country + ";" + timeEntry + ";" + salary + ";" + requirements + ";" + description + ";" + publicationDate + ";" + nameUser;
+                                String data = idPublicacion + ";" + titulo + ";" + vacancy + ";" + country + ";" + timeEntry + ";" + salary + ";" + requirements + ";" + description + ";" + publicationDate + ";" + nameUser+ ";" + email;
 
                                 System.out.println( "Titulo:  " +titulo);
 
@@ -266,6 +279,25 @@ public class Mis_Post_Fragment extends Fragment {
                 });
 
         requestQueue.add(stringRequest);
+    }
+
+    private String formatDate(String originalDate) {
+        try {
+            // Formato de fecha original
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+
+            // Formato de fecha deseado
+            SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
+            // Parsear la fecha original
+            Date date = inputFormat.parse(originalDate);
+
+            // Formatear la fecha al nuevo formato
+            return outputFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return originalDate; // En caso de error, retorna la fecha original
+        }
     }
 
 

@@ -134,7 +134,7 @@ function getAllOffers(callback) {
 
 //Mostar ofertas personales
 function getOfferByIdUser(offerId, callback) {
-  const query = "SELECT joboffer.*, user.nameUser FROM joboffer INNER JOIN user ON joboffer.id_user = user.idUser WHERE user.idUser = ?";
+  const query = "SELECT joboffer.*, user.nameUser, user.email FROM joboffer INNER JOIN user ON joboffer.id_user = user.idUser WHERE user.idUser = ?";
 
   db.query(query, [offerId], callback)
 }

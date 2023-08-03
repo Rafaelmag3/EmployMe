@@ -7,7 +7,7 @@
     android:id="@+id/contenedor_post"
     app:cardCornerRadius="10dp"
     app:cardElevation="8dp"
-    android:layout_margin="8dp">
+    android:layout_margin="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,15 +50,6 @@
                 android:textSize="14sp"
                 android:layout_marginStart="8dp"/>
 
-            <!-- Aqui cambiar la visivilidad -->
-
-            <ImageView
-                android:id="@+id/LP_imagen_Opciones"
-                android:layout_alignParentEnd="true"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/ico_3puntos"
-                android:visibility="visible"/>
 
         </RelativeLayout>
 
@@ -223,6 +214,8 @@
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             >
 
             <TableRow>
@@ -232,18 +225,23 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:tag="favorito"
                     >
                     <ImageView
+                        android:id="@+id/ico_favorito_lph"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ico_favorito"/>
+                        android:src="@drawable/ico_favorito"
+                        />
 
                     <TextView
+                        android:id="@+id/btn_favorito_lph"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:text="Favoritos"/>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -278,6 +276,7 @@
                         android:src="@drawable/icon_flechas"/>
 
                     <TextView
+                        android:id="@+id/btn_vermas_lph"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

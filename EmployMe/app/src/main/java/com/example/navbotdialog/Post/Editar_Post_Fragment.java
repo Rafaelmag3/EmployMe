@@ -1,5 +1,6 @@
 package com.example.navbotdialog.Post;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.navbotdialog.APIUtils;
+import com.example.navbotdialog.MainActivity;
 import com.example.navbotdialog.R;
 
 import org.json.JSONArray;
@@ -72,7 +74,7 @@ public class Editar_Post_Fragment extends AppCompatActivity {
         // Obtener el offerId de alguna manera (puede ser a través de un Intent)
         int offerId = getIntent().getIntExtra("offerId", -1);
 
-        Toast.makeText(this, "ID"+offerId, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "ID"+offerId, Toast.LENGTH_SHORT).show();
 
         String url = APIUtils.getFullUrl("offer/" + offerId);
 
@@ -112,7 +114,7 @@ public class Editar_Post_Fragment extends AppCompatActivity {
                                     "nameUser: " + nameUser;
 
                             System.out.println("Editar: " + data);
-                            Toast.makeText(getApplicationContext(), "Editar\n" + data, Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getApplicationContext(), "Editar\n" + data, Toast.LENGTH_SHORT).show();
 
                             // Llenar tus campos de edición con los valores obtenidos
                             puestoTrabajoEditText.setText(jobTitle);
@@ -155,44 +157,92 @@ public class Editar_Post_Fragment extends AppCompatActivity {
             String newtimeEntry   = horario2EditText.getText().toString();
             String newVacancy = noVacantesEditText.getText().toString();
             String newCountry = locacionEditText.getText().toString();
+            boolean isFormValid = true;
 
-            // Construir el objeto JSON para la solicitud PUT
-            JSONObject updatedData = new JSONObject();
-            try {
-                updatedData.put("jobTitle", newJobTitle);
-                updatedData.put("description", newdescription);
-                updatedData.put("requirements", newrequirements);
-                updatedData.put("publicationDate", newpublicationDate);
-                updatedData.put("dueDate", newdueDate);
-                updatedData.put("salary", newsalary);
-                updatedData.put("timeDeparture", newtimeDeparture);
-                updatedData.put("timeEntry", newtimeEntry);
-                updatedData.put("vacancy", newVacancy);
-                updatedData.put("country", newCountry);
-
-                // Realizar la solicitud PUT usando Volley
-                String putUrl = APIUtils.getFullUrl("offer/" + offerId);
-                JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.PUT, putUrl, updatedData,
-                        response -> {
-                            // Manejar la respuesta exitosa
-                            Toast.makeText(this, "Editado exitosamente", Toast.LENGTH_SHORT).show();
-
-                            finish();
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                // Error al eliminar la publicación
-                                System.load("Error al eliminar: "+error.getMessage());
-                            }
-                        });
-
-                // Agregar la solicitud a la cola de Volley
-                Volley.newRequestQueue(this).add(putRequest);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
+            if (newJobTitle.isEmpty()){
+                puestoTrabajoEditText.setError("Campo obligatorio");
+                isFormValid = false;
             }
+            if (newdescription.isEmpty()){
+                funcionesEditText.setError("Campo obligatorio");
+                isFormValid = false;
+            }
+            if (newrequirements.isEmpty()){
+                requisitosEditText.setError("Campo obligatorio");
+                isFormValid = false;
+            }
+            if (newpublicationDate.isEmpty()){
+                diaPublicacionEditText.setError("Campo obligatorio");
+                isFormValid = false;
+            }
+            if (newdueDate.isEmpty()){
+                diaLimiteEditText.setError("Campo obligatorio");
+                isFormValid = false;
+            }
+            if(newsalary.isEmpty()){
+                salarioEditText.setError("Campo obligatorio");
+                isFormValid = false;
+            }
+            if(newtimeDeparture.isEmpty()){
+                horarioEditText.setError("Campo obligatorio");
+                isFormValid = false;
+            }
+            if(newtimeEntry.isEmpty()){
+                horario2EditText.setError("Campo obligatorio");
+                isFormValid = false;
+            }
+            if(newVacancy.isEmpty()){
+                noVacantesEditText.setError("Campo obligatorio");
+                isFormValid = false;
+            }
+            if(newCountry.isEmpty()){
+                locacionEditText.setError("Campo obligatorio");
+                isFormValid = false;
+            }
+            if (isFormValid){
+
+                // Construir el objeto JSON para la solicitud PUT
+                JSONObject updatedData = new JSONObject();
+                try {
+                    updatedData.put("jobTitle", newJobTitle);
+                    updatedData.put("description", newdescription);
+                    updatedData.put("requirements", newrequirements);
+                    updatedData.put("publicationDate", newpublicationDate);
+                    updatedData.put("dueDate", newdueDate);
+                    updatedData.put("salary", newsalary);
+                    updatedData.put("timeDeparture", newtimeDeparture);
+                    updatedData.put("timeEntry", newtimeEntry);
+                    updatedData.put("vacancy", newVacancy);
+                    updatedData.put("country", newCountry);
+
+                    // Realizar la solicitud PUT usando Volley
+                    String putUrl = APIUtils.getFullUrl("offer/" + offerId);
+                    JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.PUT, putUrl, updatedData,
+                            response -> {
+                                // Manejar la respuesta exitosa
+                                Toast.makeText(this, "Editado exitosamente", Toast.LENGTH_SHORT).show();
+
+                                finish();
+                            },
+                            new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    // Error al eliminar la publicación
+                                    System.load("Error al eliminar: "+error.getMessage());
+                                }
+                            });
+
+                    // Agregar la solicitud a la cola de Volley
+                    Volley.newRequestQueue(this).add(putRequest);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }else {
+                Toast.makeText(this, "Complete los campos", Toast.LENGTH_SHORT).show();
+            }
+
         });
 
     }

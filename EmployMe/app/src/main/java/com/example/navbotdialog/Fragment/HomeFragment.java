@@ -1,8 +1,12 @@
 package com.example.navbotdialog.Fragment;
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,6 +15,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,18 +35,28 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class HomeFragment extends Fragment {
     private List<String> listaPublicaciones;
     private RecyclerView.Adapter<RecyclerView.ViewHolder> adapter;
 
+    private boolean isFavoritoClicked = false;
+
+    LinearLayout llFavoritos;
+
+    ImageView favoritoIcon;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,6 +71,7 @@ public class HomeFragment extends Fragment {
             @Override
             public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lista_post_home, parent, false);
+
                 return new RecyclerView.ViewHolder(view) {
                 };
             }
@@ -81,7 +98,11 @@ public class HomeFragment extends Fragment {
                 salary.setText(splitData[4]);
                 requirements.setText(splitData[5]);
                 description.setText(splitData[6]);
-                publicationDate.setText(splitData[7]);
+
+                String originalDate = splitData[7];
+                String formattedDate = formatDate(originalDate);
+                publicationDate.setText(formattedDate);
+
                 nameUser.setText(splitData[8]);
                 email.setText(splitData[9]);
             }
@@ -92,14 +113,16 @@ public class HomeFragment extends Fragment {
             }
         };
 
-
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
 
         makeGetRequest();
 
+
+
         return rootView;
     }
+
 
     private void makeGetRequest() {
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
@@ -156,6 +179,26 @@ public class HomeFragment extends Fragment {
                 });
 
         requestQueue.add(jsonArrayRequest);
+    }
+
+
+    private String formatDate(String originalDate) {
+        try {
+            // Formato de fecha original
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+
+            // Formato de fecha deseado
+            SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
+            // Parsear la fecha original
+            Date date = inputFormat.parse(originalDate);
+
+            // Formatear la fecha al nuevo formato
+            return outputFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return originalDate; // En caso de error, retorna la fecha original
+        }
     }
 
 }

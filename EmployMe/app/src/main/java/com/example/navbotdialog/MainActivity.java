@@ -89,8 +89,7 @@ public class MainActivity extends AppCompatActivity {
                     showCoordinatorLayout2();
                     getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new CalculadoraFragment()).commit();
                 } else if (itemId == R.id.salir) {
-                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(intent);
+                    showExitDialog();
                 }
 
                 return true;
@@ -363,7 +362,8 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton("Salir", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        finish(); // Finalizar la actividad para salir
+                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(intent);
                     }
                 })
                 .setNegativeButton("Cancelar", null)

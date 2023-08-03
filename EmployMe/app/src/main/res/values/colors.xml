@@ -19,4 +19,9 @@
     <color name="azul">#368690</color>
     <color name="gris">#BFD4D6</color>
     <color name="gris_claro">#86A4A9AA</color>
+    <color name="rojo">#F44336</color>
+
+    <color name="colorRojo">#FF0000</color>
+    <color name="colorAzul">#FF018786</color>
+
 </resources>

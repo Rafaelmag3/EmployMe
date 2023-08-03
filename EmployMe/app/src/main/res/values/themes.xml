@@ -29,6 +29,10 @@
     <style name="Theme.NavBotDialog.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="Theme.NavBotDialog.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="ToolbarWhiteArrow" parent="Widget.AppCompat.Toolbar">
+        <item name="android:textColorSecondary">@android:color/white</item> <!-- Cambia el color a blanco -->
+        <!-- Otros atributos de estilo aquí si es necesario -->
+    </style>
 
 
 </resources>
