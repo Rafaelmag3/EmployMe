@@ -7,4 +7,7 @@
     <item android:id="@+id/PMP_eliminar"
         android:title="Eliminar"/>
 
+    <item android:id="@+id/PMP_mostrar_mas"
+        android:title="Mostrar más"/>
+
 </menu>

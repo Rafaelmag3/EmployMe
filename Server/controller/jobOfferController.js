@@ -23,9 +23,9 @@ function getAllJobOffers(req, res) {
     });
 }
 
-function getOfferById(req, res) {
+function getOfferByIdUser(req, res) {
     const { offerId } = req.params;
-    userService.getOfferById(offerId, (error, result) => {
+    userService.getOfferByIdUser(offerId, (error, result) => {
         if (error) {
             console.log('Error al obtener las ofertas de trabajo', error);
             res.status(500).send('Error al obtener las ofertas de trabajo');
@@ -43,6 +43,7 @@ function deleteJobOffer(req, res) {
             res.status(500).send('Error al eliminar la oferta de trabajo');
         } else {
             res.status(200).json(result);
+            console.log(offerId+' Eliminado');
         }
     });
 }
@@ -56,12 +57,25 @@ function updateJobOffer(req, res) {
             res.status(500).send('Error al modificar la oferta de trabajo');
         } else {
             res.status(200).json(result);
+            console.log(offerId+' Ofertada de trabajo editada');
         }
     });
+}
+function getOfferById(req, res) {
+    const { offerId } = req.params;
+    userService.getOfferById(offerId, (error, result) => {
+        if (error) {
+            console.log('Error al obtener las ofertas de trabajo', error);
+            res.status(500).send('Error al obtener las ofertas de trabajo');
+        } else {
+            res.status(200).json(result);
+        }
+    })
 }
 
 module.exports = {
     createJobOffer,
+    getOfferByIdUser,
     getAllJobOffers,
     getOfferById,
     deleteJobOffer,

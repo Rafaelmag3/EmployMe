@@ -5,11 +5,24 @@
     android:layout_height="match_parent"
     android:paddingBottom="55dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Post.PostFragment">
+    tools:context=".Post.Mostrar_Post_Activity">
+
+    <!-- Agregar la Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_apm"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <!-- Resto de tu diseño aquí -->
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -19,32 +32,14 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp">
 
-            <TextView
-                android:id="@+id/loginText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/txt_oferta"
-                android:textAlignment="center"
-                android:textColor="@color/azul"
-                android:padding="10dp"
-                android:textSize="25sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/idpuesto"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:orientation="horizontal">
 
-
-                <EditText
-                    android:id="@+id/post_puesto_trabajo"
+                <TextView
+                    android:id="@+id/m_editText_puestoTrabajo"
                     android:layout_width="200dp"
                     android:layout_height="50dp"
                     android:layout_marginTop="20dp"
@@ -53,21 +48,20 @@
                     android:drawableLeft="@drawable/ico_perfil"
                     android:drawablePadding="8dp"
                     android:hint="Puesto"
+                    android:gravity="center_vertical"
                     android:padding="8dp"
-                    android:inputType="text"
-                    android:maxLines="1"
                     android:textColor="@color/black" />
 
-                <EditText
-                    android:id="@+id/post_No_vacantes"
+                <TextView
+                    android:id="@+id/m_editText_noVacantes"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/cuadro_editext"
                     android:drawablePadding="8dp"
+                    android:gravity="center_vertical"
                     android:hint="No. Vacantes"
-                    android:inputType="number"
-                    android:maxLines="1"
+                    android:inputType="none"
                     android:padding="8dp"
                     android:textColor="@color/black" />
 
@@ -78,17 +72,16 @@
                 android:layout_height="20dp"
                 android:layout_marginTop="20dp"
                 android:text="Ubicación"/>
-            <EditText
-                android:id="@+id/post_Locacion"
+
+            <TextView
+                android:id="@+id/m_editText_locacion"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/cuadro_editext"
                 android:drawableLeft="@drawable/ico_locacion"
                 android:drawablePadding="8dp"
-                android:hint="ej. México"
+                android:gravity="center_vertical"
                 android:padding="8dp"
-                android:inputType="text"
-                android:maxLines="1"
                 android:textColor="@color/black" />
 
             <LinearLayout
@@ -103,16 +96,14 @@
                    android:layout_marginTop="20dp"
                    android:text="Fecha de entrevista"/>
 
-                <EditText
-                    android:id="@+id/post_DiaPublicacion"
+                <TextView
+                    android:id="@+id/m_editText_diaPublicacion"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:background="@drawable/cuadro_editext"
                     android:drawableLeft="@drawable/ic_historial"
                     android:drawablePadding="8dp"
-                    android:hint="ej. 22/07/2023"
-                    android:inputType="date"
-                    android:maxLines="1"
+                    android:gravity="center_vertical"
                     android:padding="8dp"
                     android:textColor="@color/black"
                     android:tint="@color/lavanda" />
@@ -131,16 +122,14 @@
                     android:layout_marginTop="20dp"
                     android:text="Fecha de final de publicación"/>
 
-                <EditText
-                    android:id="@+id/post_DiaLimite"
+                <TextView
+                    android:id="@+id/m_editText_diaLimite"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:background="@drawable/cuadro_editext"
                     android:drawableLeft="@drawable/ic_historial"
                     android:drawablePadding="8dp"
-                    android:hint="ej. 22/07/2023"
-                    android:inputType="date"
-                    android:maxLines="1"
+                    android:gravity="center_vertical"
                     android:padding="8dp"
                     android:textColor="@color/black"
                     android:tint="@color/lavanda" />
@@ -159,31 +148,27 @@
                 android:layout_gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/post_Horario"
+                <TextView
+                    android:id="@+id/m_editText_horario"
                     android:layout_width="150dp"
                     android:layout_height="50dp"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/cuadro_editext"
                     android:drawableLeft="@drawable/ic_historial"
                     android:drawablePadding="8dp"
-                    android:hint="Horario E."
-                    android:inputType="time"
-                    android:maxLines="1"
+                    android:gravity="center_vertical"
                     android:padding="8dp"
                     android:textColor="@color/black"
                     android:tint="@color/lavanda" />
 
-                <EditText
-                    android:id="@+id/post_Horario2"
+                <TextView
+                    android:id="@+id/m_editText_horario2"
                     android:layout_width="150dp"
                     android:layout_height="50dp"
                     android:background="@drawable/cuadro_editext"
                     android:drawableLeft="@drawable/ic_historial"
                     android:drawablePadding="8dp"
-                    android:hint="Horario S."
-                    android:inputType="time"
-                    android:maxLines="1"
+                    android:gravity="center_vertical"
                     android:padding="8dp"
                     android:textColor="@color/black"
                     android:tint="@color/lavanda"
@@ -196,17 +181,15 @@
                 android:layout_marginTop="20dp"
                 android:text="Salario"/>
 
-            <EditText
-                android:id="@+id/post_Salario"
+            <TextView
+                android:id="@+id/m_editText_salario"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:background="@drawable/cuadro_editext"
                 android:drawableLeft="@drawable/ico_money"
+                android:gravity="center_vertical"
                 android:drawablePadding="8dp"
-                android:hint="ej. 1,000.00"
                 android:padding="8dp"
-                android:inputType="numberDecimal"
-                android:maxLines="10"
                 android:textColor="@color/black" />
 
             <TextView
@@ -215,17 +198,22 @@
                 android:layout_marginTop="20dp"
                 android:text="Funciones"/>
 
-            <EditText
-                android:id="@+id/post_Funciones_puesto"
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/cuadro_editext"
-                android:drawablePadding="8dp"
-                android:gravity="top"
-                android:hint="ej. 1.- Optimización de producidos."
-                android:padding="8dp"
-                android:maxLines="15"
-                android:textColor="@color/black" />
+                >
+                <TextView
+                    android:id="@+id/m_editText_funciones"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/cuadro_editext"
+                    android:drawablePadding="8dp"
+                    android:gravity="top"
+
+                    android:padding="8dp"
+                    android:textColor="@color/black" />
+
+            </ScrollView>
 
             <TextView
                 android:layout_width="match_parent"
@@ -233,31 +221,18 @@
                 android:layout_marginTop="20dp"
                 android:text="Requisitos"/>
 
-            <EditText
-                android:id="@+id/post_Requisitos"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/cuadro_editext"
-                android:drawablePadding="8dp"
-                android:gravity="top"
-                android:hint="ej. 1.- Habilidades comunicativas"
-                android:padding="8dp"
-                android:maxLines="15"
-                android:textColor="@color/black" />
 
+                <TextView
+                    android:id="@+id/m_editText_requisitos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/cuadro_editext"
+                    android:drawablePadding="8dp"
+                    android:gravity="top"
 
-            <Button
-                android:id="@+id/btnPost"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="20dp"
-                android:backgroundTint="@color/azul"
-                android:text="@string/txt_publicar"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="15sp"
-                app:cornerRadius="10dp" />
+                    android:padding="8dp"
+                    android:textColor="@color/black" />
+
 
         </LinearLayout>
 

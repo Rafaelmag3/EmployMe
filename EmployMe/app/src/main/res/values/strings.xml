@@ -19,6 +19,10 @@
     <string name="txt_a">A:</string>
     <string name="title_activity_post">PostActivity</string>
 
+    <string name="txt_oferta">Nueva Oferta de Trabajo</string>
+    <string name="txt_editar_oferta">Editar Oferta de Trabajo</string>
+    <string name="txt_publicar">Publicar</string>
+    <string name="txt_Guardar">Guardar</string>
 
     btn_Convertir
 </resources>

@@ -36,20 +36,6 @@ public class HomeFragment extends Fragment {
     private List<String> listaPublicaciones;
     private RecyclerView.Adapter<RecyclerView.ViewHolder> adapter;
 
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public HomeFragment() {
-        // Required empty public constructor
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +54,7 @@ public class HomeFragment extends Fragment {
             @NonNull
             @Override
             public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lista_post, parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lista_post_home, parent, false);
                 return new RecyclerView.ViewHolder(view) {
                 };
             }

@@ -62,6 +62,12 @@
             android:name=".forgetPassword"
             android:exported="false" />
         <activity
+            android:name=".Post.Editar_Post_Fragment"
+            android:exported="false" />
+        <activity
+            android:name=".Post.Mostrar_Post_Activity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity

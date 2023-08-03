@@ -133,8 +133,15 @@ function getAllOffers(callback) {
 }
 
 //Mostar ofertas personales
-function getOfferById(offerId, callback) {
+function getOfferByIdUser(offerId, callback) {
   const query = "SELECT joboffer.*, user.nameUser FROM joboffer INNER JOIN user ON joboffer.id_user = user.idUser WHERE user.idUser = ?";
+
+  db.query(query, [offerId], callback)
+}
+
+//Mostar ofertas id
+function getOfferById(offerId, callback) {
+  const query = "SELECT joboffer.*, user.nameUser FROM joboffer INNER JOIN user ON joboffer.id_user = user.idUser WHERE id_jobOffer  = ?";
 
   db.query(query, [offerId], callback)
 }
@@ -166,7 +173,7 @@ function updateOffer(offerId, updatedOffer, callback) {
       salary = ?,
       timeDeparture = ?,
       timeEntry = ?
-      WHERE id = ?`;
+      WHERE id_jobOffer = ?`;
 
   const values = [
     updatedOffer.jobTitle,
@@ -226,6 +233,7 @@ module.exports = {
   ModifyUser,
   createOffer,
   getAllOffers,
+  getOfferByIdUser,
   getOfferById,
   deleteOffer,
   updateOffer,

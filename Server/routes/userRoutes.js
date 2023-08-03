@@ -19,6 +19,7 @@ router.post('/checkUserExistence', userController.checkUserExistence);
 //Oferta de trabajo
 router.post('/offerJob', jobOffer.createJobOffer);
 router.get('/offers', jobOffer.getAllJobOffers);
+router.get('/offerUser/:offerId', jobOffer.getOfferByIdUser);
 router.get('/offer/:offerId', jobOffer.getOfferById);
 router.delete('/offer/:id', jobOffer.deleteJobOffer);
 router.put('/offer/:id', jobOffer.updateJobOffer);
