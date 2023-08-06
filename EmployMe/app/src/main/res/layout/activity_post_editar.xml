@@ -61,6 +61,8 @@
                     android:drawablePadding="8dp"
                     android:hint="Puesto"
                     android:padding="8dp"
+                    android:maxLines="2"
+                    android:maxLength="50"
                     android:textColor="@color/black" />
 
                 <EditText
@@ -91,6 +93,9 @@
                 android:drawablePadding="8dp"
                 android:hint="ej. México"
                 android:padding="8dp"
+                android:inputType="textMultiLine"
+                android:maxLines="2"
+                android:maxLength="50"
                 android:textColor="@color/black" />
 
             <LinearLayout
@@ -115,6 +120,8 @@
                     android:hint="ej. 22/07/2023"
                     android:inputType="date"
                     android:padding="8dp"
+                    android:maxLines="1"
+                    android:maxLength="50"
                     android:textColor="@color/black"
                     android:tint="@color/lavanda" />
 
@@ -142,6 +149,8 @@
                     android:hint="ej. 22/07/2023"
                     android:inputType="date"
                     android:padding="8dp"
+                    android:maxLines="1"
+                    android:maxLength="50"
                     android:textColor="@color/black"
                     android:tint="@color/lavanda" />
 
@@ -170,6 +179,8 @@
                     android:hint="Horario E."
                     android:inputType="time"
                     android:padding="8dp"
+                    android:maxLines="1"
+                    android:maxLength="20"
                     android:textColor="@color/black"
                     android:tint="@color/lavanda" />
 
@@ -183,6 +194,8 @@
                     android:hint="Horario S."
                     android:inputType="time"
                     android:padding="8dp"
+                    android:maxLines="1"
+                    android:maxLength="20"
                     android:textColor="@color/black"
                     android:tint="@color/lavanda"
                     tools:ignore="DuplicateIds" />
@@ -203,6 +216,8 @@
                 android:drawablePadding="8dp"
                 android:hint="ej. 1,000.00"
                 android:padding="8dp"
+                android:maxLines="1"
+                android:maxLength="30"
                 android:inputType="numberDecimal"
                 android:textColor="@color/black" />
 

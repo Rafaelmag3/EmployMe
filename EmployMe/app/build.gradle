@@ -72,4 +72,8 @@ dependencies {
     //Autenticación biométrica
     implementation 'androidx.biometric:biometric:1.0.1'
 
+    //actualizar
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+
+
 }

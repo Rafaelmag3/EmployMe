@@ -2,6 +2,7 @@ package com.example.navbotdialog.Post;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +11,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
@@ -215,20 +218,23 @@ public class Editar_Post_Fragment extends AppCompatActivity {
                     updatedData.put("vacancy", newVacancy);
                     updatedData.put("country", newCountry);
 
+                    String data = newJobTitle + ";" + newdescription + ";" + newrequirements + ";" + newpublicationDate + ";" + newdueDate + ";" + newsalary + ";" + newVacancy + ";" + newCountry;
+
+                    System.out.println( "Actualizar Datos:  " +data);
+
+
                     // Realizar la solicitud PUT usando Volley
                     String putUrl = APIUtils.getFullUrl("offer/" + offerId);
                     JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.PUT, putUrl, updatedData,
                             response -> {
                                 // Manejar la respuesta exitosa
                                 Toast.makeText(this, "Editado exitosamente", Toast.LENGTH_SHORT).show();
-
                                 finish();
                             },
                             new Response.ErrorListener() {
                                 @Override
                                 public void onErrorResponse(VolleyError error) {
-                                    // Error al eliminar la publicación
-                                    System.load("Error al eliminar: "+error.getMessage());
+                                    Log.e("Editar_Post_Fragment", "Error al editar el post", error);
                                 }
                             });
 

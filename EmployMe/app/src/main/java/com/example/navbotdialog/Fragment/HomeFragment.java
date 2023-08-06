@@ -10,13 +10,16 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,11 +49,6 @@ public class HomeFragment extends Fragment {
     private List<String> listaPublicaciones;
     private RecyclerView.Adapter<RecyclerView.ViewHolder> adapter;
 
-    private boolean isFavoritoClicked = false;
-
-    LinearLayout llFavoritos;
-
-    ImageView favoritoIcon;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,6 +116,27 @@ public class HomeFragment extends Fragment {
 
         makeGetRequest();
 
+        SwipeRefreshLayout swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout_home);
+
+        // Configura el listener para la acción de recarga
+                swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        // Verifica si la vista de la lista está en la parte superior
+                        if (recyclerView.computeVerticalScrollOffset() == 0) {
+                            // Realiza la lógica de recarga aquí
+                            makeGetRequest();
+
+                            // Finaliza la animación de recarga
+                            swipeRefreshLayout.setRefreshing(false);
+                        } else {
+                            // Si no está en la parte superior, simplemente finaliza la animación
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    }
+                });
+
+
 
 
         return rootView;
@@ -180,8 +199,6 @@ public class HomeFragment extends Fragment {
 
         requestQueue.add(jsonArrayRequest);
     }
-
-
     private String formatDate(String originalDate) {
         try {
             // Formato de fecha original

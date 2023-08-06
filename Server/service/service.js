@@ -172,7 +172,9 @@ function updateOffer(offerId, updatedOffer, callback) {
       dueDate = ?,
       salary = ?,
       timeDeparture = ?,
-      timeEntry = ?
+      timeEntry = ?,
+      vacancy = ?,
+      country = ?
       WHERE id_jobOffer = ?`;
 
   const values = [
@@ -184,6 +186,8 @@ function updateOffer(offerId, updatedOffer, callback) {
     updatedOffer.salary,
     updatedOffer.timeDeparture,
     updatedOffer.timeEntry,
+    updatedOffer.vacancy,
+    updatedOffer.country,
     offerId
   ];
 
@@ -196,6 +200,14 @@ function updateOffer(offerId, updatedOffer, callback) {
   });
 }
 
+  //------------------- FAVORITE -----------------------
+  //Mostar ofertas personales
+  function getFavoriteByIdUser(id_user, callback) {
+    const query = `SELECT favorite.*, joboffer.*, user.nameUser, user.email FROM favorite INNER JOIN joboffer ON favorite.id_joboffer = joboffer.id_jobOffer INNER JOIN user ON joboffer.id_user = user.idUser WHERE favorite.id_user = ?`;
+  
+    db.query(query, [id_user], callback)
+  }
+  
 
 
 function checkUserExistence(email, callback) {
@@ -237,6 +249,7 @@ module.exports = {
   getOfferById,
   deleteOffer,
   updateOffer,
+  getFavoriteByIdUser,
   checkUserExistence,
   saveImage,
 };

@@ -17,7 +17,9 @@ app.get('/uploads/:nombreArchivo', (res, req) => {
   res.sendFile(`${__dirname}/uploads/${nombreArchivo}`)
 });
 
-
+app.get('/', (req, res) => {
+  res.send('Servidor escuchando');
+});
 
 app.listen(PORT, () => {
   console.log(`Server listening on http://localhost:${PORT}`);

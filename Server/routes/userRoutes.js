@@ -4,6 +4,7 @@ const generateVerificationCode = require('../CodeGenerator/generateVerificationC
 const bodyParser = require('body-parser');
 const userController = require('../controller/userController');
 const jobOffer = require('../controller/jobOfferController')
+const favorite = require('../controller/favoriteController')
 const router = express.Router();
 
 router.get('/user/:id_user', userController.getUserById);
@@ -23,6 +24,9 @@ router.get('/offerUser/:offerId', jobOffer.getOfferByIdUser);
 router.get('/offer/:offerId', jobOffer.getOfferById);
 router.delete('/offer/:id', jobOffer.deleteJobOffer);
 router.put('/offer/:id', jobOffer.updateJobOffer);
+
+//favoritos
+router.get('/favorito/:id_user', favorite.getFavoriteByIdUser);
 
 // Ruta para enviar el correo de verificación
 router.use(bodyParser.json());

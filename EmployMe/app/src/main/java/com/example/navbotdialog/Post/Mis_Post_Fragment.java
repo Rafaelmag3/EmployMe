@@ -7,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.PopupMenu;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +20,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -111,15 +114,12 @@ public class Mis_Post_Fragment extends Fragment {
 
                 String idPuesto = idPuestoTextView.getText().toString();
 
-
-                //
-
                 // Agrega un clic en el elemento de la lista
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         // Llama al método para mostrar el menú emergente
-                        showPopupMenu(v, idPuesto);
+                        showPopupMenu(v, idPuesto, userId);
                     }
                 });
 
@@ -136,6 +136,39 @@ public class Mis_Post_Fragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         makeGetRequest(userId);
+
+        SwipeRefreshLayout swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
+
+        // Obtén una referencia al ScrollView
+        ScrollView scrollView = rootView.findViewById(R.id.scrollView_mipost);
+
+        // Configura el listener para el ScrollView
+        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                // Verifica si el ScrollView está en la parte superior
+                if (scrollView.getScrollY() == 0) {
+                    // Si está en la parte superior, habilita la acción de recarga
+                    swipeRefreshLayout.setEnabled(true);
+                } else {
+                    // Si no está en la parte superior, deshabilita la acción de recarga
+                    swipeRefreshLayout.setEnabled(false);
+                }
+            }
+        });
+
+        // Configura el listener para la acción de recarga
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Realiza la lógica de recarga aquí
+                makeGetRequest(userId);
+
+                // Finaliza la animación de recarga
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
 
         return rootView;
     }
@@ -206,7 +239,7 @@ public class Mis_Post_Fragment extends Fragment {
         requestQueue.add(jsonArrayRequest);
     }
 
-    private void showPopupMenu(View view, String idPuesto) {
+    private void showPopupMenu(View view, String idPuesto,int userId) {
         PopupMenu popupMenu = new PopupMenu(requireContext(), view);
         popupMenu.inflate(R.menu.popup_menu_post);
 
@@ -223,7 +256,7 @@ public class Mis_Post_Fragment extends Fragment {
                         startActivity(intent);
                         return true;
                     case R.id.PMP_eliminar:
-                        deleteJobOffer(Integer.parseInt(idPuesto));
+                        deleteJobOffer(Integer.parseInt(idPuesto), userId);
                         return true;
                     case R.id.PMP_mostrar_mas:
                         // Crear un Intent y agregar el offerId como extra
@@ -242,7 +275,7 @@ public class Mis_Post_Fragment extends Fragment {
         popupMenu.show();
     }
 
-    private void deleteJobOffer(int offerId) {
+    private void deleteJobOffer(int offerId, int userId) {
         Toast.makeText(getContext(), "Vas a eliminar a "+offerId, Toast.LENGTH_SHORT).show();
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setTitle("Eliminar publicación")
@@ -250,13 +283,13 @@ public class Mis_Post_Fragment extends Fragment {
                 .setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        performDeleteRequest(offerId);
+                        performDeleteRequest(offerId, userId);
                     }
                 })
                 .setNegativeButton("Cancelar", null)
                 .show();
     }
-    private void performDeleteRequest(int offerId) {
+    private void performDeleteRequest(int offerId, int userId) {
         RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
         String url = APIUtils.getFullUrl("offer/" + offerId);
 
@@ -267,6 +300,7 @@ public class Mis_Post_Fragment extends Fragment {
                         // La publicación se ha eliminado exitosamente
                         Toast.makeText(requireContext(), "Publicación eliminada", Toast.LENGTH_SHORT).show();
 
+                        makeGetRequest(userId);
                     }
                 },
                 new Response.ErrorListener() {
@@ -279,6 +313,11 @@ public class Mis_Post_Fragment extends Fragment {
                 });
 
         requestQueue.add(stringRequest);
+    }
+
+    private void updateActivity() {
+        // Notificar cambios al adaptador de RecyclerView
+        adapter.notifyDataSetChanged();
     }
 
     private String formatDate(String originalDate) {
