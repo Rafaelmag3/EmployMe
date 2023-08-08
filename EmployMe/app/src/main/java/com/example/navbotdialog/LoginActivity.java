@@ -5,6 +5,8 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.InputType;
@@ -21,6 +23,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.biometric.BiometricManager;
+import androidx.biometric.BiometricPrompt;
+import androidx.core.content.ContextCompat;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -49,11 +54,13 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.Executor;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText emailEditText, passwordEditText;
-    private Button loginButton;
-    TextView forgetPassword;
+    private Button loginButton, fingerprintButtom;
+    TextView forgetPassword, msgFingerprint;
     LinearLayout enviar_a_Registro;
     boolean passwordVisible = false;
     ImageView buttonPassword;
@@ -62,6 +69,14 @@ public class LoginActivity extends AppCompatActivity {
     FirebaseDatabase dataFire;
     GoogleSignInClient mGoogleSignInClient;
     ProgressDialog progressDialog;
+
+
+    //Variables del sensor de huella
+    private Executor executor;
+    private SharedPreferences sharedPreferences;
+    private BiometricPrompt biometricPrompt;
+    private BiometricPrompt.PromptInfo promptInfo;
+
 
     private int userId;
 
@@ -73,6 +88,8 @@ public class LoginActivity extends AppCompatActivity {
         emailEditText = findViewById(R.id.login_email);
         passwordEditText = findViewById(R.id.login_password);
         loginButton = findViewById(R.id.login_button);
+        fingerprintButtom = findViewById(R.id.fingerprintButtom);
+        msgFingerprint = findViewById(R.id.msgFingerprint);
         forgetPassword = findViewById(R.id.forgetPassword);
         enviar_a_Registro = findViewById(R.id.enviar_a_Registro);
 
@@ -180,6 +197,119 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
+        //**SENSOR DE HUELLA*
+        // Obtener una instancia de SharedPreferences
+        sharedPreferences = getSharedPreferences("Token", MODE_PRIVATE);
+
+        // Verificar si el usuario ya tiene un token almacenado (ya ha iniciado sesión previamente)
+        String token = sharedPreferences.getString("user_token", null);
+        if (token != null) {
+            // Si el token existe, redirige al usuario a la pantalla deseada
+            goToNewActivity();
+        } else {
+            // Mostrar el mensaje de bienvenida y opciones de autenticación biométrica
+            showWelcomeMessage();
+        }
+
+        // Mostrar el resultado de la autenticación y si el usuario puede iniciar sesión
+        executor = ContextCompat.getMainExecutor(this);
+        biometricPrompt = new BiometricPrompt(LoginActivity.this,
+                executor, new BiometricPrompt.AuthenticationCallback() {
+            @Override
+            public void onAuthenticationError(int errorCode,
+                                              @NonNull CharSequence errString) {
+                super.onAuthenticationError(errorCode, errString);
+                Toast.makeText(getApplicationContext(),
+                                "Error de autenticación: " + errString, Toast.LENGTH_SHORT)
+                        .show();
+            }
+
+            @Override
+            public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                super.onAuthenticationSucceeded(result);
+                Toast.makeText(getApplicationContext(), "¡Autenticación exitosa!", Toast.LENGTH_SHORT).show();
+
+                // Generar un token
+                String token = generateToken();
+
+                // Mostrar el token en la consola
+                System.out.println("Token generado: " + token);
+
+                // Guardar el token en SharedPreferences
+                saveTokenToSharedPreferences(token);
+
+                // Abrir la nueva actividad
+                goToNewActivity();
+            }
+
+            @Override
+            public void onAuthenticationFailed() {
+                super.onAuthenticationFailed();
+                Toast.makeText(getApplicationContext(), "Autenticación fallida",
+                                Toast.LENGTH_SHORT)
+                        .show();
+            }
+        });
+
+        promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                .setTitle("Inicio de sesión biométrico")
+                .setSubtitle("Inicia sesión usando tu credencial biométrica")
+                .setNegativeButtonText("Volver")
+                .build();
+
+        // El aviso aparece cuando el usuario hace clic en "Iniciar sesión".
+
+        fingerprintButtom.setOnClickListener(view -> {
+            biometricPrompt.authenticate(promptInfo);
+        });
+
+    }
+
+    private void showWelcomeMessage() {
+        // Verificar si el usuario puede usar el sensor de huellas dactilares
+        BiometricManager biometricManager = BiometricManager.from(this);
+        switch (biometricManager.canAuthenticate()) {
+            case BiometricManager.BIOMETRIC_SUCCESS:
+                msgFingerprint.setText("Usa tu datos biometricos para Iniciar Sesión");
+                msgFingerprint.setTextColor(Color.parseColor("#000000"));
+                break;
+            case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
+                msgFingerprint.setText("No tienes el sensor de huellas dactilares para iniciar sesión");
+                msgFingerprint.setTextColor(Color.parseColor("#EC4949"));
+                fingerprintButtom.setVisibility(View.GONE);
+                break;
+            case BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE:
+                msgFingerprint.setText("El sensor biométrico no está disponible actualmente");
+                msgFingerprint.setTextColor(Color.parseColor("#EC4949"));
+                fingerprintButtom.setVisibility(View.GONE);
+                break;
+            case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
+                msgFingerprint.setText("Tu dispositivo no tiene ninguna huella dactilar guardada, por favor verifica tus ajustes de seguridad");
+                msgFingerprint.setTextColor(Color.parseColor("#EC4949"));
+                fingerprintButtom.setVisibility(View.GONE);
+                break;
+        }
+    }
+
+    private String generateToken() {
+        // Aquí puedes generar un token de manera segura utilizando cualquier método que prefieras.
+        // Puedes usar bibliotecas de generación de tokens como JWT (JSON Web Tokens) o simplemente generar un UUID único.
+
+        // Por ejemplo, para generar un UUID único:
+        return UUID.randomUUID().toString();
+    }
+
+    private void saveTokenToSharedPreferences(String token) {
+        // Editar el SharedPreferences para guardar el token
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("user_token", token);
+        editor.apply();
+    }
+
+    private void goToNewActivity() {
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish(); // Finalizar esta actividad para que no se pueda volver a ella con el botón "Atrás"
     }
 
     public void iniciarSesion(String email, String password) {
