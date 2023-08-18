@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingBottom="55dp"
     tools:context=".Post.Mis_Post_Fragment">
 
     <TextView

@@ -5,66 +5,81 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingBottom="20dp"
+    android:paddingBottom="50dp"
     tools:context=".Herramientas.Notas.NotasFragment">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_notasfragment"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        style="@style/ToolbarWhiteArrow" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:text="Notas"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:textSize="30dp"
-                android:gravity="center"/>
-
-        </RelativeLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:paddingTop="55dp"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="70dp"
+            android:orientation="vertical">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/Recycler_home"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="70dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp" />
+                android:layout_height="wrap_content">
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginEnd="30dp"
-                android:backgroundTint="@color/white"
-                android:layout_marginBottom="55dp"
-                app:borderWidth="0dp"
-                android:src="@drawable/edit" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:text="Notas"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="30dp"
+                    android:gravity="center"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/Recycler_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="30dp"
+                    android:backgroundTint="@color/white"
+                    android:layout_marginBottom="55dp"
+                    app:borderWidth="0dp"
+                    android:src="@drawable/edit" />
 
 
-        </RelativeLayout>
+            </RelativeLayout>
 
+        </LinearLayout>
     </LinearLayout>
+
 
 </FrameLayout>

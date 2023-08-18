@@ -71,6 +71,11 @@ public class PostFragment extends Fragment {
         funciones = rootView.findViewById(R.id.post_Funciones_puesto);
         requisitos = rootView.findViewById(R.id.post_Requisitos);
 
+        EditText salarioEditText = rootView.findViewById(R.id.post_Salario);
+        MoneyTextWatcher moneyTextWatcher = new MoneyTextWatcher(salarioEditText);
+        salarioEditText.addTextChangedListener(moneyTextWatcher);
+
+
 
         post_DiaPublicacion = rootView.findViewById(R.id.post_DiaPublicacion);
         post_DiaLimite = rootView.findViewById(R.id.post_DiaLimite);

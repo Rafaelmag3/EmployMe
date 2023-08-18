@@ -122,7 +122,7 @@ function createOffer(jobOffer, callback) {
 
 //Mostrar todas las ofertas
 function getAllOffers(callback) {
-  const query = 'SELECT joboffer.*, user.nameUser, user.email FROM joboffer INNER JOIN user ON joboffer.id_user = user.idUser';
+  const query = 'SELECT joboffer.*, user.nameUser, user.email FROM joboffer INNER JOIN user ON joboffer.id_user = user.idUser ORDER BY joboffer.id_jobOffer DESC';
   db.query(query, (error, result) => {
     if (error) {
       callback(error, null);
@@ -134,7 +134,7 @@ function getAllOffers(callback) {
 
 //Mostar ofertas personales
 function getOfferByIdUser(offerId, callback) {
-  const query = "SELECT joboffer.*, user.nameUser, user.email FROM joboffer INNER JOIN user ON joboffer.id_user = user.idUser WHERE user.idUser = ?";
+  const query = "SELECT joboffer.*, user.nameUser, user.email FROM joboffer INNER JOIN user ON joboffer.id_user = user.idUser WHERE user.idUser = ? ORDER BY joboffer.id_jobOffer DESC";
 
   db.query(query, [offerId], callback)
 }
@@ -203,8 +203,7 @@ function updateOffer(offerId, updatedOffer, callback) {
   //------------------- FAVORITE -----------------------
   //Mostar ofertas personales
   function getFavoriteByIdUser(id_user, callback) {
-    const query = `SELECT favorite.*, joboffer.*, user.nameUser, user.email FROM favorite INNER JOIN joboffer ON favorite.id_joboffer = joboffer.id_jobOffer INNER JOIN user ON joboffer.id_user = user.idUser WHERE favorite.id_user = ?`;
-  
+    const query = `SELECT favorite.*, joboffer.*, user.nameUser, user.email FROM favorite INNER JOIN joboffer ON favorite.id_joboffer = joboffer.id_jobOffer INNER JOIN user ON joboffer.id_user = user.idUser WHERE favorite.id_user = ? ORDER BY joboffer.id_jobOffer DESC`;
     db.query(query, [id_user], callback)
   }
   

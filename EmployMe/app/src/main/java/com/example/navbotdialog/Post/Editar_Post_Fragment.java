@@ -70,9 +70,6 @@ public class Editar_Post_Fragment extends AppCompatActivity {
         setSupportActionBar(toolbar);
         // Habilitar el botón de retroceso en la Toolbar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        // Aplicar el nuevo estilo a la Toolbar
-        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
-
 
         // Obtener el offerId de alguna manera (puede ser a través de un Intent)
         int offerId = getIntent().getIntExtra("offerId", -1);

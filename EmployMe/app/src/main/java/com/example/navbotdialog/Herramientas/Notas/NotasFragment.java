@@ -11,6 +11,8 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,6 +36,7 @@ public class NotasFragment extends Fragment {
     RoomDB basedatos;
     FloatingActionButton fab_add;
     Notas NotaSelec;
+    Toolbar toolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,13 @@ public class NotasFragment extends Fragment {
         notas = basedatos.mainDAO().getAll();
 
         actualizarRecycler(notas);
+
+        // Configurar la Toolbar
+        toolbar = view.findViewById(R.id.toolbar_notasfragment);
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
+
+        // Habilitar el botón de retroceso en la Toolbar
+        ((AppCompatActivity) requireActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         fab_add.setOnClickListener(new View.OnClickListener() {
             @Override
